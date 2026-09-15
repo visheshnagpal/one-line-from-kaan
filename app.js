@@ -1,4 +1,4 @@
-// One line from Kaan — a Moment. Open or refresh: one checked line. Tap it: that second on YouTube.
+// Cookies from Kaan — a Moment. Open or refresh: one checked line. Tap it: that second on YouTube.
 // Search is a closed lens. Deck / index / log stay behind this face.
 import { buildBags, rankKeyword, rankHybrid } from "./rank.js";
 import { faceCard, faceOpen, canFace, furtherAfter, takePassage, textOf as voiceText } from "./voice.js";
