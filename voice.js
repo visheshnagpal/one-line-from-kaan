@@ -4,7 +4,7 @@
 // quote, never an unlabeled student line, never his reply with the question dropped.
 
 const NAMES = "joe|anita|sophia|shane|iris|anna|adria|olivia|reed|patty|neel|vishesh|tatiana|ismed|nia|nha|ada";
-const FILLER_SENT = /^(yeah|yes|okay|ok|exactly|mhm|mm+|right|beautiful|perfect|nice|good|thank you|thanks|wow|sure|no|hm+|uh-huh|correct|true)[.!?]?$/i;
+const FILLER_SENT = /^(yeah|yes|okay|ok|exactly|mhm|mm+|right|beautiful|perfect|nice|good|thank you|thanks|wow|sure|no|hm+|uh-huh|correct|true|bye(?:\s+bye)*)[.!?]?$/i;
 const ADMIN_HARD = /\b(can you hear|hear me|recording|zoom|mute|unmute|whatsapp|share your screen|screen share|are you there|is everyone|let me check|one second|hold on|any (other )?questions)\b/i;
 const CLASS_WRAP = /\b(this will be our last class|ask (it )?in our regular class|see you (next week|on the next class|in the next|guys)|thank you (guys )?for joining|i will send you the recording|added you to (the )?(whatsapp|calendar)|can you hear me|share your screen|okay,? anything else|any other questions about this)\b/i;
 const NAME_TURN = new RegExp(String.raw`\b(?:yes|okay|ok|thanks?|hi|hello)\s+(${NAMES})\b`, "i");
@@ -48,7 +48,7 @@ function isAsk(s) {
 export function tagSentence(text) {
   const s = String(text ?? "").replace(/\s+/g, " ").trim();
   if (!s) return "skip";
-  if (FILLER_SENT.test(s)) return "filler";
+  if (FILLER_SENT.test(s) || /^(?:bye\b[\s,]*)+(?:everybody|everyone|guys)?[.!]*$/i.test(s)) return "filler";
   if (NAME_ONLY.test(s)) return "admin";
   if (CLASS_WRAP.test(s)) return "admin";
   if (ADMIN_HARD.test(s) && wordCount(s) < 22) return "admin";
@@ -181,15 +181,31 @@ export function faceCard(card) {
 }
 
 const BIND_NEXT = /^(because|so|means|that is|that's|which|and mainly|like it's)\b/i;
+const NEW_SCENE = /^(when i |then i |so let's|let's |i will |now |first,|there is a |i asked|i had an accident)/i;
+const SHORT_YES = /\b(yes|no|exactly|right|true|correct)\.?$/i;
+const SPAN_THOUGHT = 55;
 
-/** One on-screen beat. Aim: tens of words. Never cuts inside a sentence. */
+export function isCompleteThought(s) {
+  const t = tidy(s);
+  const w = wordCount(t);
+  if (!t || w < 7) return false;
+  if (SHORT_YES.test(t) && w <= 12) return false;
+  if (/\b(this|that)\.?$/i.test(t) && w <= 16) return false;
+  if (/basically\.?$/i.test(t) && w <= 12) return false;
+  return /[.!?]$/.test(t) || w >= 12;
+}
+
+/** Keep a yes/no or heading with the sentence it needs. Never cut inside a sentence. */
 export function shouldBind(a, b) {
-  const left = String(a ?? "").trim();
-  const right = String(b ?? "").trim();
+  const left = tidy(a);
+  const right = tidy(b);
   if (!left || !right) return false;
-  if (!/[?]$/.test(left)) return false;
-  if (BIND_NEXT.test(right)) return true;
-  return wordCount(left) <= 8;
+  if (NEW_SCENE.test(right)) return false;
+  if (wordCount(left) + wordCount(right) > SPAN_THOUGHT) return false;
+  if (/[?]$/.test(left) && (BIND_NEXT.test(right) || wordCount(left) <= 8)) return true;
+  if (!isCompleteThought(left)) return true;
+  if (/^(it can be|this is|that's|that is)\b/i.test(right) && wordCount(right) <= 12) return true;
+  return false;
 }
 
 export function quoteSpans(text) {
@@ -200,6 +216,10 @@ export function beatsOf(text) {
   const out = [];
   for (const span of quoteSpans(text)) {
     const sents = splitSentences(span);
+    if (wordCount(span) <= SPAN_THOUGHT && sents.length <= 8) {
+      if (span) out.push(span);
+      continue;
+    }
     for (let i = 0; i < sents.length; ) {
       let beat = sents[i];
       while (i + 1 < sents.length && shouldBind(beat, sents[i + 1])) {
