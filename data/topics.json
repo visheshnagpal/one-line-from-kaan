@@ -1,0 +1,225 @@
+{
+ "min": 0.45,
+ "looAccuracy": 0.636,
+ "looFamilyAccuracy": 0.851,
+ "looAccuracyAboveMin": 0.656,
+ "families": [
+  {
+   "name": "Awareness",
+   "topics": [
+    "The View",
+    "Open Awareness",
+    "The Switch",
+    "Counting the Breath",
+    "Posture & Sinking In"
+   ],
+   "lines": 166,
+   "auto": 282
+  },
+  {
+   "name": "Compassion",
+   "topics": [
+    "Loving Kindness",
+    "Tonglen",
+    "Motivation",
+    "Dedication of Merit",
+    "Visualization"
+   ],
+   "lines": 130,
+   "auto": 166
+  },
+  {
+   "name": "Wisdom",
+   "topics": [
+    "Inquiry",
+    "Interdependence",
+    "Emptiness",
+    "Samudayo"
+   ],
+   "lines": 136,
+   "auto": 195
+  },
+  {
+   "name": "Emotions",
+   "topics": [
+    "Naked Emotion",
+    "The Emotion Mandala",
+    "Awakened Wisdom Aspects"
+   ],
+   "lines": 97,
+   "auto": 161
+  },
+  {
+   "name": "Devotion",
+   "topics": [
+    "Devotion",
+    "Refuge",
+    "Prostrations"
+   ],
+   "lines": 56,
+   "auto": 79
+  }
+ ],
+ "topics": [
+  {
+   "name": "Loving Kindness",
+   "family": "Compassion",
+   "page": "Practices/Loving Kindness",
+   "seed": 16,
+   "lines": 54,
+   "auto": 86
+  },
+  {
+   "name": "Inquiry",
+   "family": "Wisdom",
+   "page": "Practices/Inquiry",
+   "seed": 15,
+   "lines": 50,
+   "auto": 81
+  },
+  {
+   "name": "Naked Emotion",
+   "family": "Emotions",
+   "page": "Practices/Naked Emotion",
+   "seed": 13,
+   "lines": 44,
+   "auto": 82
+  },
+  {
+   "name": "Open Awareness",
+   "family": "Awareness",
+   "page": "Practices/Open Awareness",
+   "seed": 11,
+   "lines": 34,
+   "auto": 90
+  },
+  {
+   "name": "The View",
+   "family": "Awareness",
+   "page": "Practices/The View",
+   "seed": 19,
+   "lines": 51,
+   "auto": 56
+  },
+  {
+   "name": "Posture & Sinking In",
+   "family": "Awareness",
+   "page": "Practices/Posture & Sinking In",
+   "seed": 14,
+   "lines": 40,
+   "auto": 65
+  },
+  {
+   "name": "Samudayo",
+   "family": "Wisdom",
+   "page": "Practices/Samudayo",
+   "seed": 19,
+   "lines": 38,
+   "auto": 49
+  },
+  {
+   "name": "Counting the Breath",
+   "family": "Awareness",
+   "page": "Practices/Counting the Breath",
+   "seed": 9,
+   "lines": 27,
+   "auto": 52
+  },
+  {
+   "name": "Awakened Wisdom Aspects",
+   "family": "Emotions",
+   "page": "Practices/Awakened Wisdom Aspects",
+   "seed": 14,
+   "lines": 32,
+   "auto": 47
+  },
+  {
+   "name": "Devotion",
+   "family": "Devotion",
+   "page": "Practices/Devotion",
+   "seed": 14,
+   "lines": 31,
+   "auto": 36
+  },
+  {
+   "name": "Motivation",
+   "family": "Compassion",
+   "page": "Practices/Motivation",
+   "seed": 7,
+   "lines": 22,
+   "auto": 40
+  },
+  {
+   "name": "Emptiness",
+   "family": "Wisdom",
+   "page": "Practices/Emptiness",
+   "seed": 13,
+   "lines": 29,
+   "auto": 29
+  },
+  {
+   "name": "Interdependence",
+   "family": "Wisdom",
+   "page": "Practices/Interdependence",
+   "seed": 10,
+   "lines": 19,
+   "auto": 36
+  },
+  {
+   "name": "The Emotion Mandala",
+   "family": "Emotions",
+   "page": "Practices/The Emotion Mandala",
+   "seed": 15,
+   "lines": 21,
+   "auto": 32
+  },
+  {
+   "name": "Tonglen",
+   "family": "Compassion",
+   "page": "Practices/Tonglen",
+   "seed": 12,
+   "lines": 22,
+   "auto": 25
+  },
+  {
+   "name": "Prostrations",
+   "family": "Devotion",
+   "page": "Practices/Prostrations",
+   "seed": 8,
+   "lines": 13,
+   "auto": 26
+  },
+  {
+   "name": "The Switch",
+   "family": "Awareness",
+   "page": "Practices/The Switch",
+   "seed": 8,
+   "lines": 14,
+   "auto": 19
+  },
+  {
+   "name": "Refuge",
+   "family": "Devotion",
+   "page": "Practices/Refuge",
+   "seed": 9,
+   "lines": 12,
+   "auto": 17
+  },
+  {
+   "name": "Visualization",
+   "family": "Compassion",
+   "page": "Practices/Visualization",
+   "seed": 7,
+   "lines": 14,
+   "auto": 11
+  },
+  {
+   "name": "Dedication of Merit",
+   "family": "Compassion",
+   "page": "Practices/Dedication of Merit",
+   "seed": 9,
+   "lines": 18,
+   "auto": 4
+  }
+ ]
+}
