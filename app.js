@@ -1,7 +1,7 @@
 // Cookies from Kaan — a Moment. Open or refresh: one checked line. Tap it: that second on YouTube.
 // Search is a closed lens. Deck / index / log stay behind this face.
 import { buildBags, rankKeyword, rankHybrid } from "./rank.js";
-import { faceCard, faceOpen, canFace, furtherAfter, takePassage, textOf as voiceText } from "./voice.js";
+import { faceCard, faceOpen, furtherAfter, takePassage, textOf as voiceText, loadReaderEdits, isReviewedCookie, provenanceOf } from "./voice.js";
 
 const app = document.getElementById("app");
 const [deck] = await Promise.all([
@@ -10,6 +10,13 @@ const [deck] = await Promise.all([
 for (const l of deck) l.type = "line";
 const byId = new Map(deck.map((l) => [l.id, l]));
 
+const readerP = fetch("data/reader.json").then((r) => {
+  if (!r.ok) throw new Error(`reader.json ${r.status}`);
+  return r.json();
+}).then((edits) => loadReaderEdits(edits, { loaded: true })).catch((err) => {
+  console.warn("reader edits failed; builtin withhold still applies", err);
+  loadReaderEdits({}, { loaded: false });
+});
 let autoP = null, indexP = null;
 const getAuto = () => (autoP ??= fetch("data/auto.json").then((r) => r.json()).then((a) => {
   for (const x of a) { x.type = "auto"; byId.set(x.id, x); }
@@ -91,17 +98,19 @@ function embed(c) {
 }
 
 function pick() {
+  const approved = deck.filter((l) => isReviewedCookie(l));
+  if (!approved.length) return null;
   const seen = new Set(seenIds());
-  let fresh = deck.filter((l) => !seen.has(l.id) && canFace(l));
+  let fresh = approved.filter((l) => !seen.has(l.id));
   if (!fresh.length) {
     try { localStorage.removeItem(SEEN_KEY); } catch { /* */ }
-    fresh = deck.filter((l) => canFace(l));
-    if (!fresh.length) fresh = deck;
+    fresh = approved;
   }
   return fresh[Math.floor(Math.random() * fresh.length)];
 }
 function show(card, { watch = false, hash = false } = {}) {
-  state.card = faceOpen(card) ?? card;
+  const opened = faceOpen(card) ?? card;
+  state.card = opened;
   state.watching = !!watch;
   state.asking = false;
   state.along = null;
@@ -109,23 +118,36 @@ function show(card, { watch = false, hash = false } = {}) {
   if (hash && card?.id) location.hash = `l=${card.id}`;
   else if (!hash && location.hash) history.replaceState(null, "", location.pathname + location.search);
   render();
-  if (state.watching) bindEmbedFallback(card);
-  const shown = state.card;
-  alongOf(shown).then((along) => {
-    if (state.card !== shown || state.along) return;
-    state.along = along;
-    if (!along.turns.length) render();
+  if (state.watching) bindEmbedFallback(opened);
+  const token = opened;
+  alongOf(token).then((along) => {
+    if (state.card !== token) return;
+    if (state.along) return;
+    if (along.opened && textOf(along.opened) && textOf(along.opened) !== textOf(token)) {
+      state.card = along.opened;
+    }
+    state.along = { turns: along.turns, pos: 0 };
+    if (textOf(state.card) !== textOf(token) || !along.turns.length) render();
   });
 }
 async function alongOf(card) {
+  await readerP;
   const byVideo = await getChunksByVideo();
-  return { turns: furtherAfter(card, byVideo.get(card.video) ?? []), pos: 0 };
+  const list = byVideo.get(card.video) ?? [];
+  const opened = faceOpen(card, list) ?? card;
+  return { opened, turns: furtherAfter(opened, list), pos: 0 };
 }
 const shownAlong = () => state.along?.turns.slice(0, state.along.pos) ?? [];
 const alongEnded = () => !!state.along && state.along.pos >= state.along.turns.length;
 function draw() {
   const card = pick();
-  if (!card) return;
+  if (!card) {
+    state.card = null;
+    state.along = null;
+    render();
+    log("moment", { id: null, empty: true, of: deck.length });
+    return;
+  }
   show(card);
   log("moment", { id: card.id, kind: card.kind ?? null, seen: seenIds().length, of: deck.length });
 }
@@ -182,7 +204,8 @@ function present(idx, it) {
     const near = (idx.autoByVideo.get(it.video) ?? []).find((a) => Math.abs(a.t - it.t) <= 30);
     card = near ?? it;
   }
-  return faceCard(card);
+  const list = (idx.chunks ?? []).filter((c) => c.video === card.video);
+  return faceOpen(faceCard(card), list);
 }
 const FAMILIES = ["Awareness", "Compassion", "Wisdom", "Emotions", "Devotion"];
 const KIND_RANK = { practice: 0, prayer: 1, teaching: 2, example: 3, question: 4 };
@@ -232,7 +255,8 @@ async function runSearch() {
   if (q.length < 2) { state.results = []; state.searchStatus = ""; render(); return; }
   const idx = await getIndex();
   if (seq !== searchSeq) return;
-  state.results = gatherResults(rankKeyword(idx.items, idx.bags, q, 20).map((it) => present(idx, it)), q);
+  const shown = (it) => textOf(it) && !it.withheld;
+  state.results = gatherResults(rankKeyword(idx.items, idx.bags, q, 20).map((it) => present(idx, it)).filter(shown), q);
   state.searchStatus = modelState === "failed" ? "keyword search (the model didn't load)" : modelState === "ready" ? "" : "loading the model once…";
   render();
   setTimeout(() => {
@@ -248,7 +272,8 @@ async function runSearch() {
     }
     const qvec = await embedder(q);
     if (seq !== searchSeq) return;
-    state.results = gatherResults(rankHybrid(idx.items, idx.bags, idx.meta, idx.vec, q, qvec, undefined, 20).map((it) => present(idx, it)), q);
+    const shown = (it) => textOf(it) && !it.withheld;
+    state.results = gatherResults(rankHybrid(idx.items, idx.bags, idx.meta, idx.vec, q, qvec, undefined, 20).map((it) => present(idx, it)).filter(shown), q);
     state.searchStatus = "";
     render();
   });
@@ -257,9 +282,12 @@ async function runSearch() {
 async function readFurther() {
   const card = state.card;
   if (!card) return;
-  const along = state.along ?? await alongOf(card);
-  if (state.card !== card) return;
-  state.along = along;
+  if (!state.along) {
+    const along = await alongOf(card);
+    if (state.card !== card) return;
+    if (!state.along) state.along = { turns: along.turns, pos: 0 };
+  }
+  const along = state.along;
   const more = takePassage(along.turns.slice(along.pos), 1);
   along.pos += more.length;
   log("further", { id: card.id, shown: along.pos, of: along.turns.length, added: more.length });
@@ -312,7 +340,9 @@ function viewAsk() {
       const i = state.results.indexOf(it);
       const text = it.asked ? `${it.asked} — ${it.quote}` : textOf(it);
       const kind = it.kind ? `<span class="result-k">${esc(it.kind === "question" ? "a question" : it.kind)}</span>` : "";
-      return `<button class="result" data-open="${i}"><span class="result-q">${esc(text)}</span>${kind}<span class="result-t">${fmtTime(it.t)}</span></button>`;
+      const src = provenanceOf(it);
+      const srcNote = src === "reviewed" ? "" : `<span class="result-src">${esc(src === "draft" ? "awaiting the editor" : "from the captions")}</span>`;
+      return `<button class="result" data-open="${i}"><span class="result-q">${esc(text)}</span>${kind}${srcNote}<span class="result-t">${fmtTime(it.t)}</span></button>`;
     }).join("");
     return `<div class="group"><div class="group-k">${esc(g.label)}</div>${items}</div>`;
   }).join("");
@@ -331,17 +361,26 @@ function viewAsk() {
 
 function viewMoment() {
   const c = state.card;
-  if (!c) return "";
+  if (!c) {
+    return `<div class="moment"><p class="src-note">No reviewed line to show yet.</p></div>`;
+  }
   const start = startOf(c);
   const quote = textOf(c);
-  const raw = c.type !== "line" && !c.asked;
+  const origin = provenanceOf(c);
+  const raw = origin !== "reviewed" && !c.asked;
   const along = shownAlong();
+  const originNote = c.readerNote || (c.withheld
+    ? "This passage is waiting on a listen"
+    : origin === "reviewed" ? "" : origin === "draft"
+      ? "drafted — awaiting the editor"
+      : "from the captions, not yet reviewed");
   return `<div class="moment">
     ${c.asked ? `<p class="asked">${esc(c.asked)}</p>` : ""}
     ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Hear Kaan say it">${esc(quote)}</button>` : ""}
     <div class="src">
       <span class="src-session">${esc(c.session)}</span><span aria-hidden="true">·</span>
       <a class="time${state.watching ? " on" : ""}" href="${yt(c.video, start)}" target="_blank" rel="noopener" data-act="watch">${fmtTime(c.t)}</a>
+      ${originNote ? `<span class="src-note">${esc(originNote)}</span>` : ""}
     </div>
     ${state.watching ? `<div class="frame"><iframe src="${embed(c)}" title="${esc(c.session)} at ${fmtTime(c.t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>` : ""}
     ${along.length ? `<div class="along">${along.map((s) => `${s.asked ? `<p class="asked">${esc(s.asked)}</p>` : ""}<p>${esc(s.text)}</p>`).join("")}</div>` : ""}
@@ -460,6 +499,7 @@ window.addEventListener("pageshow", (e) => {
 });
 
 (async () => {
+  await readerP;
   const nav = performance.getEntriesByType?.("navigation")?.[0];
   const reloaded = nav?.type === "reload";
   const h = location.hash;

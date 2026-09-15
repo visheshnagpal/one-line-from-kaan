@@ -88,6 +88,89 @@ function tidyQuote(s) {
   return t;
 }
 
+// Display-only overlays. Raw transcripts stay on disk as fetched.
+// heard:false everywhere in the builtin set: no one in this pass listened.
+const BUILTIN_WITHHOLD = [
+  {
+    video: "r8UmVq9O0Fk",
+    from: 4139,
+    to: 4161,
+    cue: "1:08:59",
+    raw: "expenditure",
+    flag: "uncertain-asr",
+    heard: false,
+  },
+];
+
+let READER = { terms: [], cards: new Map(), withhold: [...BUILTIN_WITHHOLD], loaded: false };
+
+function rawHit(raw, text) {
+  if (!raw || !text) return false;
+  return new RegExp(`\\b${String(raw).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(text);
+}
+
+function mergeWithhold(extra) {
+  const out = [...BUILTIN_WITHHOLD];
+  for (const w of extra ?? []) {
+    if (!w) continue;
+    const dup = out.some((x) => x.video === w.video && x.raw === w.raw && x.from === w.from);
+    if (!dup) out.push(w);
+  }
+  return out;
+}
+
+export function loadReaderEdits(edits = {}, { loaded = false } = {}) {
+  const terms = Array.isArray(edits.terms) ? edits.terms : [];
+  const cards = new Map();
+  for (const c of edits.cards ?? []) if (c?.id) cards.set(c.id, c);
+  READER = {
+    terms,
+    cards,
+    withhold: mergeWithhold(edits.withhold),
+    heard: edits.heard === true,
+    loaded,
+  };
+  return READER;
+}
+
+export function readerEditsLoaded() {
+  return READER.loaded === true;
+}
+
+export function applyDisplayTerms(text, extra = "") {
+  let s = String(text ?? "");
+  const ctx = `${s} ${extra}`;
+  for (const term of READER.terms) {
+    if (!term?.from || term.to == null) continue;
+    if (term.when && !new RegExp(term.when, "i").test(ctx)) continue;
+    s = s.replace(new RegExp(term.from, "gi"), term.to);
+  }
+  return s;
+}
+
+function cardEdit(card) {
+  return READER.cards.get(card?.id) ?? null;
+}
+
+/**
+ * Quarantine. A sentence that *starts* before `from` still matches when it
+ * contains `raw` on the same video, or when [t, tEnd] overlaps [from, to].
+ */
+export function isWithheld(video, t, text = "", extra = {}) {
+  const tEnd = extra.tEnd ?? extra.end ?? t;
+  return READER.withhold.some((w) => {
+    if (w.video && w.video !== video) return false;
+    if (rawHit(w.raw, text)) return true;
+    if (w.from == null && w.to == null) return false;
+    const start = t == null ? tEnd : t;
+    const end = tEnd == null ? t : tEnd;
+    if (start == null) return false;
+    const from = w.from ?? w.to;
+    const to = w.to ?? w.from;
+    return start <= to && end >= from;
+  });
+}
+
 /** Editor lines that already write `student (Name): … Kaan: …`. */
 export function splitLabeled(text) {
   const raw = String(text ?? "");
@@ -188,11 +271,30 @@ const SPAN_THOUGHT = 55;
 export function isCompleteThought(s) {
   const t = tidy(s);
   const w = wordCount(t);
-  if (!t || w < 7) return false;
+  if (!t || w < 3) return false;
   if (SHORT_YES.test(t) && w <= 12) return false;
   if (/\b(this|that)\.?$/i.test(t) && w <= 16) return false;
   if (/basically\.?$/i.test(t) && w <= 12) return false;
+  if (looksHanging(t)) return false;
   return /[.!?]$/.test(t) || w >= 12;
+}
+
+const HANGING_TAIL = /\b(I|we|you|to|the|a|an|and|or|but|my|his|her|of|for|before|after|if|when|that|this|really|like)\.?$/i;
+const HANGING_HEAD = /^(and|but|or|because|if|when|before|after|to|really|like let's|let's say my)\b/i;
+
+function looksHanging(s) {
+  const t = tidy(s);
+  if (!t) return true;
+  if (/[.!?]$/.test(t) && wordCount(t) >= 3 && !HANGING_TAIL.test(t.replace(/[.!?]+$/, ""))) return false;
+  return HANGING_TAIL.test(t) || (HANGING_HEAD.test(t) && !/[.!?]$/.test(t) && wordCount(t) < 16);
+}
+
+/** Mid-sentence cut. A short finished sentence is not a fragment. */
+export function looksFragment(s) {
+  const t = tidy(s);
+  if (!t) return true;
+  if (looksHanging(t)) return true;
+  return !isCompleteThought(t);
 }
 
 /** Keep a yes/no or heading with the sentence it needs. Never cut inside a sentence. */
@@ -217,6 +319,7 @@ export function quoteSpans(text) {
 
 export function beatsOf(text) {
   const out = [];
+  // Ellipsis is an editorial cut. Do not glue the pieces — that invents a sentence.
   for (const span of quoteSpans(text)) {
     const sents = splitSentences(span);
     if (wordCount(span) <= SPAN_THOUGHT && sents.length <= 8) {
@@ -236,17 +339,77 @@ export function beatsOf(text) {
   return out.length ? out : (tidy(text) ? [tidy(text)] : []);
 }
 
-/** Opening drip: first beat of recorded text. Remainder stays on `sourceQuote`. */
-export function faceOpen(card) {
+function finishOpening(text) {
+  const beats = beatsOf(text);
+  return { quote: beats[0] || text, rest: beats.slice(1), full: text };
+}
+
+const JOIN_FAIL_WORDS = 70;
+
+/** Join neighbouring caption chunks, then split sentences. No clause guessing. */
+export function thoughtAt(chunks, t, hint = "") {
+  const list = [...(chunks ?? [])].sort((a, b) => a.t - b.t);
+  const around = list.filter((c) => c.t >= t - 50 && c.t <= t + 90);
+  if (!around.length) return "";
+  const joined = around.map((c) => c.text).join(" ");
+  const sents = splitSentences(joined);
+  const needle = wordsOf(hint).filter((w) => w.length > 3).slice(0, 6).join(" ");
+  let hit = -1;
+  if (needle) hit = sents.findIndex((s) => wordsOf(s).join(" ").includes(needle));
+  if (hit < 0) {
+    const at = around.find((c) => c.t <= t && c.t + 30 >= t) ?? around[0];
+    const key = wordsOf(at.text).slice(0, 5).join(" ");
+    hit = sents.findIndex((s) => wordsOf(s).join(" ").includes(key));
+  }
+  if (hit < 0) return "";
+  const thought = sents[hit];
+  if (wordCount(thought) > JOIN_FAIL_WORDS) return "";
+  return tidy(thought);
+}
+
+function alreadyOpen(card) {
+  return Boolean(card?.sourceQuote) && Array.isArray(card.restBeats);
+}
+
+/** Opening drip: first whole thought. Remainder stays on `sourceQuote`. Idempotent. */
+export function faceOpen(card, chunks = []) {
+  if (!card) return card;
+  if (alreadyOpen(card)) {
+    const quote = applyDisplayTerms(card.quote);
+    const full = applyDisplayTerms(card.sourceQuote);
+    const withheld = isWithheld(card.video, card.t, quote) || isWithheld(card.video, card.t, full);
+    return {
+      ...card,
+      quote: withheld ? "" : quote,
+      sourceQuote: full,
+      restBeats: card.restBeats.map((t) => applyDisplayTerms(t)),
+      withheld,
+    };
+  }
   const base = faceCard(card);
   if (!base) return base;
-  const full = textOf(base);
-  const beats = beatsOf(full);
+  const edit = cardEdit(base);
+  const rawFull = textOf(base);
+  const full = edit?.open ? edit.open : rawFull;
+  const finished = finishOpening(full);
+  let quote = finished.quote;
+  let rest = finished.rest;
+  if (looksFragment(quote) && chunks.length && !edit?.open) {
+    const recovered = thoughtAt(chunks, base.t ?? 0, quote);
+    if (recovered && !looksFragment(recovered) && wordCount(recovered) <= JOIN_FAIL_WORDS) {
+      quote = recovered;
+      rest = [];
+    }
+  }
+  quote = applyDisplayTerms(quote);
+  const shownWithheld = isWithheld(base.video, base.t, quote);
   return {
     ...base,
-    quote: beats[0] || full,
-    sourceQuote: full,
-    restBeats: beats.slice(1),
+    quote: shownWithheld ? "" : quote,
+    sourceQuote: applyDisplayTerms(full),
+    restBeats: rest.map((t) => applyDisplayTerms(t)),
+    withheld: shownWithheld,
+    readerNote: edit?.note ?? "",
   };
 }
 
@@ -271,6 +434,40 @@ export function canFace(card) {
   if (STUDENT_LABEL.test(quote) && KAAN_LABEL.test(quote)) return false;
   if (isClassAdmin(quote) && wordCount(quote) < 70) return false;
   return true;
+}
+
+/**
+ * Homepage cookies. `type: "line"` is assigned in the browser to every deck row —
+ * it is not a review mark. Only `reviewed: true` (from the source page's
+ * `status: reviewed`) or an explicit `approved: true` overlay counts.
+ * Editorial review is not audio verification.
+ */
+export function editorialStatus(card) {
+  if (!card) return "unknown";
+  if (card.type === "chunk") return "caption";
+  if (card.type === "auto" || card.auto === true) return "auto";
+  if (card.draft === true || card.reviewed === false) return "draft";
+  if (card.approved === true || card.reviewed === true) return "editorial";
+  return "unknown";
+}
+
+export function isReviewedCookie(card) {
+  if (!card || !canFace(card)) return false;
+  if (editorialStatus(card) !== "editorial") return false;
+  const opened = alreadyOpen(card) ? card : faceOpen(card);
+  if (opened.withheld || !textOf(opened).trim()) return false;
+  if (!opened.asked && looksFragment(textOf(opened))) return false;
+  if (isWithheld(card.video, card.t, textOf(opened))) return false;
+  return true;
+}
+
+export function provenanceOf(card) {
+  const status = editorialStatus(card);
+  if (status === "editorial") return "reviewed";
+  if (status === "draft") return "draft";
+  if (status === "auto") return "auto";
+  if (status === "caption") return "caption";
+  return "unknown";
 }
 
 const FILLER_WORD = /^(uh|um|hm+|mm+|so|okay|ok|yeah|yes)$/;
@@ -471,8 +668,37 @@ function inEllipsisGap(t, spans) {
   return false;
 }
 
+function captionWindow(list, fromT, horizon) {
+  const win = list.filter((c) => c.t >= fromT - 8 && c.t <= horizon);
+  const parts = [];
+  let offset = 0;
+  for (const c of win) {
+    const text = applyDisplayTerms(c.text);
+    parts.push({ c, start: offset, text });
+    offset += text.length + 1;
+  }
+  const joined = parts.map((p) => p.text).join(" ");
+  return { parts, joined };
+}
+
+function sentencesOnJoin(joined, parts, fromT) {
+  const sents = splitSentences(joined);
+  const out = [];
+  let search = 0;
+  for (const s of sents) {
+    const at = joined.indexOf(s, search);
+    const idx = at >= 0 ? at : search;
+    search = idx + s.length;
+    const part = parts.find((p) => idx >= p.start && idx < p.start + p.text.length + 1) ?? parts.find((p) => p.start + p.text.length >= idx) ?? parts[0];
+    const endAt = idx + s.length;
+    const endPart = [...parts].reverse().find((p) => p.start < endAt) ?? part;
+    out.push({ text: s, t: part?.c.t ?? fromT, tEnd: endPart?.c.t ?? part?.c.t ?? fromT });
+  }
+  return out;
+}
+
 export function sentenceStream(card, chunks) {
-  const quote = card.sourceQuote || textOf(card);
+  const quote = applyDisplayTerms(card.sourceQuote || textOf(card));
   const shown = new Set([quote, card.asked].filter(Boolean).map((s) => wordsOf(s).join(" ")));
   const list = [...chunks].sort((a, b) => a.t - b.t);
   const spans = card._spans ?? alignQuoteSpans(quote, list, card.t);
@@ -480,13 +706,13 @@ export function sentenceStream(card, chunks) {
   const fromT = lastEnd ?? card.t;
   const before = list.filter((c) => c.t < card.t).at(-1);
   const around = [before, ...list.filter((c) => c.t >= card.t && c.t <= card.t + QUOTE_SPAN_S)].filter(Boolean);
-  const joined = around.map((c) => c.text).join(" ");
-  const cut = lastEnd == null ? quoteEnd(quote, joined) : 0;
+  const joinedAround = around.map((c) => c.text).join(" ");
+  const cut = lastEnd == null ? quoteEnd(quote, joinedAround) : 0;
   const starts = new Map();
   let offset = 0;
   for (const c of around) { starts.set(c, offset); offset += c.text.length + 1; }
-  const stream = [];
   const horizon = fromT + 8 * 60;
+  const tail = [];
   for (const ch of list) {
     if (ch.t > horizon) break;
     if (inEllipsisGap(ch.t, spans)) continue;
@@ -494,17 +720,23 @@ export function sentenceStream(card, chunks) {
     let text = ch.text;
     if (lastEnd == null && starts.has(ch)) {
       const from = Math.max(cut, starts.get(ch));
-      text = from < starts.get(ch) + ch.text.length ? joined.slice(from, starts.get(ch) + ch.text.length) : "";
+      text = from < starts.get(ch) + ch.text.length ? joinedAround.slice(from, starts.get(ch) + ch.text.length) : "";
       if (ch === before && !cut) text = "";
     } else if (ch.t < fromT) continue;
     if (!text) continue;
     text = text.replace(/\([^)]*whisper hallucinated[^)]*\)/ig, " ").replace(/\s+/g, " ").trim();
-    for (const s of splitSentences(text)) {
-      const key = wordsOf(s).join(" ");
-      if (key.length < 12 || shown.has(key) || containedIn(quote, s) || isClassAdmin(s) || skipCaption(s) || /whisper hallucinated|likely silence/i.test(s)) continue;
-      shown.add(key);
-      stream.push({ text: s, t: Math.max(ch.t, card.t) });
-    }
+    if (text) tail.push({ ...ch, text });
+  }
+  const { parts, joined } = captionWindow(tail, fromT, horizon);
+  const stream = [];
+  for (const s of sentencesOnJoin(joined, parts, fromT)) {
+    const text = applyDisplayTerms(s.text);
+    const key = wordsOf(text).join(" ");
+    if (key.length < 12 || shown.has(key) || containedIn(quote, text) || isClassAdmin(text) || skipCaption(text) || /whisper hallucinated|likely silence/i.test(text)) continue;
+    if (isWithheld(card.video, s.t, text, { tEnd: s.tEnd })) break;
+    if (wordCount(text) > JOIN_FAIL_WORDS) continue;
+    shown.add(key);
+    stream.push({ text, t: Math.max(s.t, card.t), tEnd: s.tEnd });
   }
   return stream;
 }
@@ -512,26 +744,29 @@ export function sentenceStream(card, chunks) {
 /** Remaining editor beats, then caption beats after the last aligned span. */
 export function furtherAfter(card, chunks) {
   const base = faceCard({ ...card, quote: card.sourceQuote || textOf(card), type: card.type });
-  const full = card.sourceQuote || textOf(base);
-  const rest = card.restBeats ?? beatsOf(full).slice(1);
+  const full = applyDisplayTerms(card.sourceQuote || textOf(base));
+  const rest = (card.restBeats ?? beatsOf(full).slice(1)).map((t) => applyDisplayTerms(t));
   const spans = alignQuoteSpans(full, chunks, card.t);
   const quoteTurns = rest.map((text, i) => ({
     text,
     t: spans[Math.min(i + 1, Math.max(spans.length - 1, 0))]?.tStart ?? card.t,
     source: "quote",
-  }));
+  })).filter((x) => !isWithheld(card.video, x.t, x.text));
   const captions = alongTurns(sentenceStream({ ...card, sourceQuote: full, asked: base.asked, _spans: spans }, chunks));
   const quoted = [beatsOf(full)[0], ...rest].filter(Boolean);
   const seen = new Set(quoted.map((t) => wordsOf(t).join(" ")));
   const out = [...quoteTurns];
   for (const x of captions) {
-    const key = wordsOf(x.text).join(" ");
+    const text = applyDisplayTerms(x.text);
+    const key = wordsOf(text).join(" ");
     if (key.length < 12 || seen.has(key)) continue;
-    if (echoesQuote(full, x.text)) continue;
-    if (quoted.some((q) => containedIn(q, x.text) || containedIn(x.text, q))) continue;
-    if (out.some((y) => containedIn(y.text, x.text) || containedIn(x.text, y.text))) continue;
+    if (isWithheld(card.video, x.t, text, { tEnd: x.tEnd })) continue;
+    if (wordCount(text) > JOIN_FAIL_WORDS) continue;
+    if (echoesQuote(full, text)) continue;
+    if (quoted.some((q) => containedIn(q, text) || containedIn(text, q))) continue;
+    if (out.some((y) => containedIn(y.text, text) || containedIn(text, y.text))) continue;
     seen.add(key);
-    out.push(x);
+    out.push({ ...x, text });
   }
   return out.slice(0, 48);
 }

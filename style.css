@@ -162,6 +162,12 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 }
 .src-session { font-weight: 400; }
 .src .time { font-size: inherit; line-height: inherit; }
+.src-note {
+  flex-basis: 100%;
+  color: var(--whisper);
+  font-size: 0.75rem;
+  letter-spacing: -0.0025rem;
+}
 
 .time {
   color: var(--whisper);
@@ -315,12 +321,14 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
-.result-k {
+.result-k,
+.result-src {
   display: block;
   color: var(--whisper);
   font-size: 0.75rem;
   margin-top: 0.15rem;
 }
+.result-src { grid-column: 1; }
 .result .time { flex-shrink: 0; }
 
 .foot {

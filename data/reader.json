@@ -1,0 +1,41 @@
+{
+  "heard": false,
+  "note": "Display-only. Raw wiki/_transcripts/ are never rewritten from here. heard:false means no one in this pass listened to the tape. Editorial status:reviewed on a wiki page is not audio verification.",
+  "terms": [
+    {
+      "from": "\\bmandela\\b",
+      "to": "mandala",
+      "when": "emotion|emotional|picture|disturbance",
+      "reason": "Written context is the emotion-mandala teaching. Not audio-verified."
+    }
+  ],
+  "cards": [
+    {
+      "id": "r8UmVq9O0Fk-4114",
+      "open": "I practiced a lot about this emotion mandala before I start my 200 days of fasting.",
+      "reason": "Cue join 1:08:30\u20131:08:36 (chunks.json r8UmVq9O0Fk-4110). The 1:08:34 / 4114 stamp is the Practice-page / screenshot second, not a separate thought. No tape was heard. Watch: https://youtu.be/r8UmVq9O0Fk?t=4110 Display cleanup removes opening filler and adds a final full stop; no audio verification.",
+      "heard": false,
+      "note": "Continue in the video; the next passage needs transcript review."
+    },
+    {
+      "id": "r8UmVq9O0Fk-4110",
+      "open": "I practiced a lot about this emotion mandala before I start my 200 days of fasting.",
+      "reason": "Same cue join as 4114, for the caption chunk that actually starts at 1:08:30. Watch: https://youtu.be/r8UmVq9O0Fk?t=4110 Display cleanup removes opening filler and adds a final full stop; no audio verification.",
+      "heard": false,
+      "note": "Continue in the video; the next passage needs transcript review."
+    }
+  ],
+  "withhold": [
+    {
+      "video": "r8UmVq9O0Fk",
+      "from": 4139,
+      "to": 4161,
+      "cue": "1:08:59",
+      "flag": "uncertain-asr",
+      "raw": "expenditure",
+      "suspect": "expectation",
+      "reason": "Captions at 1:08:59 (t=4139) say expenditure. A reader suspected expectation. Text cannot decide. Quarantined pending a listen. Not replaced. Watch: https://youtu.be/r8UmVq9O0Fk?t=4139",
+      "heard": false
+    }
+  ]
+}
