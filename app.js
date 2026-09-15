@@ -1,7 +1,7 @@
 // One line from Kaan — a Moment. Open or refresh: one checked line. Tap it: that second on YouTube.
 // Search is a closed lens. Deck / index / log stay behind this face.
 import { buildBags, rankKeyword, rankHybrid } from "./rank.js";
-import { faceCard, canFace, furtherAfter, textOf as voiceText } from "./voice.js";
+import { faceCard, canFace, furtherAfter, takePassage, textOf as voiceText } from "./voice.js";
 
 const app = document.getElementById("app");
 const [deck] = await Promise.all([
@@ -49,9 +49,7 @@ const state = {
   query: "",
   results: [],
   searchStatus: "",
-  further: [],
-  furtherStep: 0,
-  furtherDone: false,
+  along: null, // { turns, pos }: everything Further can show for this card, and how far the reader is
 };
 let lastQueryLogged = "";
 let embedWatch = null;
@@ -104,24 +102,25 @@ function show(card, { watch = false, hash = false } = {}) {
   state.card = faceCard(card) ?? card;
   state.watching = !!watch;
   state.asking = false;
-  state.further = [];
-  state.furtherStep = 0;
-  state.furtherDone = false;
+  state.along = null;
   if (card?.id) remember(card.id);
   if (hash && card?.id) location.hash = `l=${card.id}`;
   else if (!hash && location.hash) history.replaceState(null, "", location.pathname + location.search);
   render();
   if (state.watching) bindEmbedFallback(card);
-  peekFurther();
+  const shown = state.card;
+  alongOf(shown).then((along) => {
+    if (state.card !== shown || state.along) return;
+    state.along = along;
+    if (!along.turns.length) render();
+  });
 }
-async function peekFurther() {
-  if (!state.card || state.further.length) return;
-  const rest = await streamAfter(state.card);
-  if (!rest.length && !state.further.length) {
-    state.furtherDone = true;
-    render();
-  }
+async function alongOf(card) {
+  const byVideo = await getChunksByVideo();
+  return { turns: furtherAfter(card, byVideo.get(card.video) ?? []), pos: 0 };
 }
+const shownAlong = () => state.along?.turns.slice(0, state.along.pos) ?? [];
+const alongEnded = () => !!state.along && state.along.pos >= state.along.turns.length;
 function draw() {
   const card = pick();
   if (!card) return;
@@ -253,44 +252,15 @@ async function runSearch() {
   });
 }
 
-async function streamAfter(card) {
-  const byVideo = await getChunksByVideo();
-  const list = byVideo.get(card.video) ?? [];
-  const already = state.further.flatMap((x) => [x.asked, x.text]).filter(Boolean);
-  return furtherAfter(card, list, already);
-}
-function takePassage(stream, want) {
-  const out = [];
-  let words = 0;
-  const minWords = want * 12, maxWords = want * 26;
-  for (const s of stream) {
-    const blob = `${s.asked ?? ""} ${s.text}`;
-    if (out.some((x) => {
-      const a = `${x.asked ?? ""} ${x.text}`.toLowerCase();
-      const b = blob.toLowerCase();
-      return a.includes(b.slice(0, Math.min(48, b.length))) || b.includes(a.slice(0, Math.min(48, a.length)));
-    })) continue;
-    const n = blob.split(/\s+/).filter(Boolean).length;
-    if (s.asked && out.length && words >= minWords) break;
-    out.push(s);
-    words += n;
-    if (out.length >= want && words >= minWords) break;
-    if (words >= maxWords) break;
-  }
-  return out;
-}
 async function readFurther() {
   const card = state.card;
-  if (!card || state.furtherDone) return;
-  const want = state.furtherStep === 0 ? 3 : 7;
-  const stream = await streamAfter(card);
-  const more = takePassage(stream, want);
-  if (!more.length) { state.furtherDone = true; render(); return; }
-  state.further = [...state.further, ...more];
-  state.furtherStep += 1;
-  const rest = await streamAfter(card);
-  if (!rest.length) state.furtherDone = true;
-  log("further", { id: card.id, step: state.furtherStep, added: more.length });
+  if (!card) return;
+  const along = state.along ?? await alongOf(card);
+  if (state.card !== card) return;
+  state.along = along;
+  const more = takePassage(along.turns.slice(along.pos), along.pos === 0 ? 3 : 7);
+  along.pos += more.length;
+  log("further", { id: card.id, shown: along.pos, of: along.turns.length, added: more.length });
   render();
 }
 
@@ -340,6 +310,7 @@ function viewMoment() {
   const start = startOf(c);
   const quote = textOf(c);
   const raw = c.type !== "line" && !c.asked;
+  const along = shownAlong();
   return `<div class="moment">
     ${c.asked ? `<p class="asked">${esc(c.asked)}</p>` : ""}
     ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Hear Kaan say it">${esc(quote)}</button>` : ""}
@@ -348,8 +319,8 @@ function viewMoment() {
       <a class="time${state.watching ? " on" : ""}" href="${yt(c.video, start)}" target="_blank" rel="noopener" data-act="watch">${fmtTime(c.t)}</a>
     </div>
     ${state.watching ? `<div class="frame"><iframe src="${embed(c)}" title="${esc(c.session)} at ${fmtTime(c.t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>` : ""}
-    ${state.further.length ? `<div class="along">${state.further.map((s) => `${s.asked ? `<p class="asked">${esc(s.asked)}</p>` : ""}<p>${esc(s.text)}</p>`).join("")}</div>` : ""}
-    ${state.furtherDone ? "" : `<button class="further" data-act="further">${state.further.length ? "further" : "read further"}</button>`}
+    ${along.length ? `<div class="along">${along.map((s) => `${s.asked ? `<p class="asked">${esc(s.asked)}</p>` : ""}<p>${esc(s.text)}</p>`).join("")}</div>` : ""}
+    ${alongEnded() ? "" : `<button class="further" data-act="further">${along.length ? "further" : "read further"}</button>`}
   </div>`;
 }
 
