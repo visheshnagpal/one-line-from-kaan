@@ -327,19 +327,15 @@ function viewMoment() {
   </div>`;
 }
 
-const INTRO = {
-  lead: "A year later, I returned to an old video of Kaan and noticed things I didn’t remember hearing that way before. That inspired me to make this: a little chance to return, notice something fresh, and sit with it in the moments between things. Small transitional spaces in which we can practice, imagine, and think.",
-  how: "Read a little. Tap the words to hear Kaan. Follow “Further” when you want to stay with the thought.",
-  note: "Notice an error, or have a suggestion? I’d love to hear from you.",
-};
-
 function viewIntro() {
   if (!state.intro) return "";
   return `<div class="intro-scrim" data-act="intro-close">
-    <div class="intro" role="dialog" aria-modal="true" aria-labelledby="intro-h" tabindex="-1">
-      <p id="intro-h">${esc(INTRO.lead)}</p>
-      <p class="intro-how">${esc(INTRO.how)}</p>
-      <p class="intro-note">${esc(INTRO.note)}</p>
+    <div class="intro" role="dialog" aria-modal="true" aria-label="How to use this site" tabindex="-1">
+      <p>Tap <strong>@insideout.tepetaklak</strong> for another line.<br>
+      Tap the <strong>quote or timestamp</strong> to open the original video.<br>
+      Tap <strong>Further</strong> to keep reading.<br>
+      Tap <strong>search</strong> to find a topic or ask a question.</p>
+      <p>Errors or suggestions? <a href="mailto:visheshnagpal@gmail.com">visheshnagpal@gmail.com</a></p>
       <button class="intro-x" data-act="intro-close" type="button">Close</button>
     </div>
   </div>`;
@@ -357,7 +353,7 @@ function view() {
     </div>
     ${state.asking ? viewAsk() : viewMoment()}
     <footer class="foot">
-      <button class="about" data-act="intro" type="button" aria-expanded="${state.intro ? "true" : "false"}">about</button>
+      <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}">?</button>
     </footer>
     </div>
     ${viewIntro()}
@@ -404,7 +400,7 @@ function wire() {
     if (act === "intro-close") {
       state.intro = false;
       render();
-      introReturn?.focus?.();
+      app.querySelector('[data-act="intro"]')?.focus();
       return;
     }
     if (act === "refresh") {
@@ -431,7 +427,7 @@ function wire() {
 document.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT") return;
   if (e.key === "Escape") {
-    if (state.intro) { state.intro = false; render(); introReturn?.focus?.(); }
+    if (state.intro) { state.intro = false; render(); app.querySelector('[data-act="intro"]')?.focus(); }
     else if (state.asking) { state.asking = false; state.query = ""; state.results = []; render(); }
     else if (state.watching) { state.watching = false; render(); }
   }

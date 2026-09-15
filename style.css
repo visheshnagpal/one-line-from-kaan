@@ -306,7 +306,10 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   font-weight: 460;
   letter-spacing: -0.0025rem;
   line-height: 1.25rem;
-  padding: 0.2rem 0;
+  padding: 0;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  text-align: left;
 }
 .about:hover, .about[aria-expanded="true"] { color: var(--ink); }
 
@@ -368,3 +371,6 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.15rem);
   }
 }
+
+.intro strong { font-weight: 600; }
+.intro a { color: inherit; text-underline-offset: 0.15em; }
