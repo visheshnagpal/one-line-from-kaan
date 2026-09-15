@@ -297,7 +297,6 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 .result .time { flex-shrink: 0; }
 
 .foot {
-  margin-top: auto;
   padding-top: 3rem;
 }
 .about {
@@ -305,8 +304,8 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   font-size: 0.8125rem;
   font-weight: 460;
   letter-spacing: -0.0025rem;
-  line-height: 1;
-  padding: 0.35rem 0.15rem;
+  line-height: 1.25rem;
+  padding: 0.2rem 0;
 }
 .about:hover, .about[aria-expanded="true"] { color: var(--ink); }
 
