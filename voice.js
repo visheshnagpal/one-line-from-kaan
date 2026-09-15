@@ -180,7 +180,7 @@ export function faceCard(card) {
   return card;
 }
 
-const BIND_NEXT = /^(because|so|means|that is|that's|which|and mainly|like it's)\b/i;
+const BIND_NEXT = /^(because|so|means|that is|that's|which|and mainly|like it's|generally this is how|this is (why|how))\b/i;
 const NEW_SCENE = /^(when i |then i |so let's|let's |i will |now |first,|there is a |i asked|i had an accident)/i;
 const SHORT_YES = /\b(yes|no|exactly|right|true|correct)\.?$/i;
 const SPAN_THOUGHT = 55;
@@ -202,6 +202,9 @@ export function shouldBind(a, b) {
   if (!left || !right) return false;
   if (NEW_SCENE.test(right)) return false;
   if (wordCount(left) + wordCount(right) > SPAN_THOUGHT) return false;
+  // Continuations after a finished sentence — not a new scene. Bare "So …"
+  // stays question-only; it is too common to glue every teaching.
+  if (BIND_NEXT.test(right) && !/^so\b/i.test(right)) return true;
   if (/[?]$/.test(left) && (BIND_NEXT.test(right) || wordCount(left) <= 8)) return true;
   if (!isCompleteThought(left)) return true;
   if (/^(it can be|this is|that's|that is)\b/i.test(right) && wordCount(right) <= 12) return true;
@@ -298,6 +301,15 @@ function containedIn(hay, needle) {
   const h = wordsOf(hay).join(" "), n = wordsOf(needle).join(" ");
   if (n.length < 16) return false;
   return h.includes(n.slice(0, Math.min(72, n.length)));
+}
+
+/** Caption restating the opening with a dropped "the"/"so". */
+function echoesQuote(quote, text) {
+  const n = wordsOf(text).filter((w) => w.length > 2);
+  if (n.length < 6) return false;
+  const h = new Set(wordsOf(quote).filter((w) => w.length > 2));
+  const hit = n.filter((w) => h.has(w)).length;
+  return hit / n.length >= 0.84;
 }
 
 /**
@@ -515,6 +527,7 @@ export function furtherAfter(card, chunks) {
   for (const x of captions) {
     const key = wordsOf(x.text).join(" ");
     if (key.length < 12 || seen.has(key)) continue;
+    if (echoesQuote(full, x.text)) continue;
     if (quoted.some((q) => containedIn(q, x.text) || containedIn(x.text, q))) continue;
     if (out.some((y) => containedIn(y.text, x.text) || containedIn(x.text, y.text))) continue;
     seen.add(key);

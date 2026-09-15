@@ -50,7 +50,9 @@ const state = {
   results: [],
   searchStatus: "",
   along: null, // { turns, pos }: everything Further can show for this card, and how far the reader is
+  intro: false,
 };
+let introReturn = null;
 let lastQueryLogged = "";
 let embedWatch = null;
 
@@ -276,6 +278,7 @@ function watch(c, ev) {
 }
 
 function render() {
+  document.documentElement.classList.toggle("intro-open", state.intro);
   app.innerHTML = view();
   wire();
 }
@@ -324,8 +327,26 @@ function viewMoment() {
   </div>`;
 }
 
+const INTRO = {
+  lead: "A year later, I returned to an old video of Kaan and noticed things I didn’t remember hearing that way before. That inspired me to make this: a little chance to return, notice something fresh, and sit with it in the moments between things. Small transitional spaces in which we can practice, imagine, and think.",
+  how: "Read a little. Tap the words to hear Kaan. Follow “Further” when you want to stay with the thought.",
+};
+
+function viewIntro() {
+  if (!state.intro) return "";
+  return `<div class="intro-scrim" data-act="intro-close">
+    <div class="intro" role="dialog" aria-modal="true" aria-labelledby="intro-h" tabindex="-1">
+      <p id="intro-h">${esc(INTRO.lead)}</p>
+      <p class="intro-how">${esc(INTRO.how)}</p>
+      <button class="intro-x" data-act="intro-close" type="button">Close</button>
+    </div>
+  </div>`;
+}
+
 function view() {
+  const inert = state.intro ? " inert" : "";
   return `<div class="page">
+    <div class="chrome"${inert}>
     <div class="bar">
       <button class="mark" data-act="refresh" type="button" title="another line">@insideout.tepetaklak</button>
       <button class="lens${state.asking ? " on" : ""}" data-act="ask" title="ask anything" aria-label="ask anything">
@@ -333,6 +354,11 @@ function view() {
       </button>
     </div>
     ${state.asking ? viewAsk() : viewMoment()}
+    <footer class="foot">
+      <button class="about" data-act="intro" type="button" aria-label="About this page" aria-expanded="${state.intro ? "true" : "false"}">?</button>
+    </footer>
+    </div>
+    ${viewIntro()}
   </div>`;
 }
 
@@ -343,6 +369,19 @@ function wire() {
     show(it, { hash: true });
   };
   app.querySelectorAll("[data-open]").forEach((b) => b.addEventListener("click", () => openResult(+b.dataset.open)));
+  const introBox = app.querySelector(".intro");
+  if (introBox) {
+    introBox.addEventListener("click", (ev) => ev.stopPropagation());
+    const focusable = [...introBox.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])")];
+    introBox.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab" || !focusable.length) return;
+      const i = focusable.indexOf(document.activeElement);
+      const last = focusable.length - 1;
+      if (e.shiftKey && (i <= 0)) { e.preventDefault(); focusable[last].focus(); }
+      else if (!e.shiftKey && i === last) { e.preventDefault(); focusable[0].focus(); }
+    });
+    (focusable[0] ?? introBox).focus();
+  }
   app.querySelectorAll("[data-act]").forEach((el) => el.addEventListener("click", (ev) => {
     const act = el.dataset.act;
     if (act === "ask") {
@@ -354,6 +393,18 @@ function wire() {
     }
     if (act === "watch") watch(state.card, ev);
     if (act === "further") readFurther();
+    if (act === "intro") {
+      introReturn = el;
+      state.intro = true;
+      render();
+      return;
+    }
+    if (act === "intro-close") {
+      state.intro = false;
+      render();
+      introReturn?.focus?.();
+      return;
+    }
     if (act === "refresh") {
       log("refresh", { from: state.card?.id ?? null });
       draw();
@@ -378,7 +429,8 @@ function wire() {
 document.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT") return;
   if (e.key === "Escape") {
-    if (state.asking) { state.asking = false; state.query = ""; state.results = []; render(); }
+    if (state.intro) { state.intro = false; render(); introReturn?.focus?.(); }
+    else if (state.asking) { state.asking = false; state.query = ""; state.results = []; render(); }
     else if (state.watching) { state.watching = false; render(); }
   }
 });
