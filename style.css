@@ -130,28 +130,30 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 
 .quote {
   display: block;
-  max-width: 70ch;
+  width: 100%;
+  text-align: left;
+  font-family: var(--serif);
   color: var(--ink);
-  font-size: 0.875rem;
-  font-weight: 460;
-  line-height: 1.25rem;
-  letter-spacing: -0.00563rem;
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
 }
 .quote.raw { color: var(--soft); }
 
 .src {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
   padding: 0 0 0.5rem;
+  color: var(--whisper);
+  font-size: 0.8125rem;
+  line-height: 1.4;
 }
-.src-session {
-  color: var(--ink);
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.25rem;
-  letter-spacing: -0.00563rem;
-}
+.src-session { font-weight: 400; }
+.src .time { font-size: inherit; line-height: inherit; }
 
 .time {
   color: var(--whisper);

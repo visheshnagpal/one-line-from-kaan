@@ -318,7 +318,7 @@ function viewMoment() {
     ${c.asked ? `<p class="asked">${esc(c.asked)}</p>` : ""}
     ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Hear Kaan say it">${esc(quote)}</button>` : ""}
     <div class="src">
-      <span>${esc(c.session)}</span>
+      <span class="src-session">${esc(c.session)}</span><span aria-hidden="true">·</span>
       <a class="time${state.watching ? " on" : ""}" href="${yt(c.video, start)}" target="_blank" rel="noopener" data-act="watch">${fmtTime(c.t)}</a>
     </div>
     ${state.watching ? `<div class="frame"><iframe src="${embed(c)}" title="${esc(c.session)} at ${fmtTime(c.t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>` : ""}
