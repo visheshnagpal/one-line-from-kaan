@@ -312,7 +312,8 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 }
 .about {
   color: var(--whisper);
-  font-size: 0.8125rem;
+  font-family: var(--serif);
+  font-size: 0.875rem;
   font-weight: 460;
   letter-spacing: -0.0025rem;
   line-height: 1.25rem;

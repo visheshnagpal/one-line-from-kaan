@@ -375,7 +375,7 @@ function view() {
     </div>
     ${state.asking ? viewAsk() : viewMoment()}
     <footer class="foot">
-      <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}">?</button>
+      <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}">about</button>
     </footer>
     </div>
     ${viewIntro()}
