@@ -263,7 +263,29 @@ async function readFurther() {
   const more = takePassage(along.turns.slice(along.pos), 1);
   along.pos += more.length;
   log("further", { id: card.id, shown: along.pos, of: along.turns.length, added: more.length });
-  render();
+  const button = app.querySelector('[data-act="further"]');
+  if (!button) return;
+  let container = app.querySelector('.along');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'along';
+    container.style.animation = 'none';
+    button.before(container);
+  }
+  for (const passage of more) {
+    if (passage.asked) {
+      const question = document.createElement('p');
+      question.className = 'asked new-passage';
+      question.textContent = passage.asked;
+      container.append(question);
+    }
+    const paragraph = document.createElement('p');
+    paragraph.className = 'new-passage';
+    paragraph.textContent = passage.text;
+    container.append(paragraph);
+  }
+  if (alongEnded()) button.remove();
+  else button.textContent = 'further';
 }
 
 function watch(c, ev) {

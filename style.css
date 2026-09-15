@@ -140,6 +140,14 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   letter-spacing: 0;
 }
 .quote.raw { color: var(--soft); }
+.quote {
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+  text-decoration-skip-ink: auto;
+}
+.quote:hover, .quote:focus-visible { text-decoration-color: var(--soft); }
 
 .src {
   display: flex;
@@ -376,3 +384,13 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 
 .intro strong { font-weight: 600; }
 .intro a { color: inherit; text-underline-offset: 0.15em; }
+
+/* Further reveals only the added paragraphs; existing text stays in place. */
+.new-passage { animation: passageIn 0.35s ease both; }
+@keyframes passageIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .new-passage { animation: none; }
+}
