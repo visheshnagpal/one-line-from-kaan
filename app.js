@@ -1,7 +1,7 @@
 // One line from Kaan — a Moment. Open or refresh: one checked line. Tap it: that second on YouTube.
 // Search is a closed lens. Deck / index / log stay behind this face.
 import { buildBags, rankKeyword, rankHybrid } from "./rank.js";
-import { faceCard, canFace, furtherAfter, takePassage, textOf as voiceText } from "./voice.js";
+import { faceCard, faceOpen, canFace, furtherAfter, takePassage, textOf as voiceText } from "./voice.js";
 
 const app = document.getElementById("app");
 const [deck] = await Promise.all([
@@ -99,7 +99,7 @@ function pick() {
   return fresh[Math.floor(Math.random() * fresh.length)];
 }
 function show(card, { watch = false, hash = false } = {}) {
-  state.card = faceCard(card) ?? card;
+  state.card = faceOpen(card) ?? card;
   state.watching = !!watch;
   state.asking = false;
   state.along = null;
@@ -258,7 +258,7 @@ async function readFurther() {
   const along = state.along ?? await alongOf(card);
   if (state.card !== card) return;
   state.along = along;
-  const more = takePassage(along.turns.slice(along.pos), along.pos === 0 ? 3 : 7);
+  const more = takePassage(along.turns.slice(along.pos), 1);
   along.pos += more.length;
   log("further", { id: card.id, shown: along.pos, of: along.turns.length, added: more.length });
   render();

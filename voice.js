@@ -147,6 +147,16 @@ export function looksMixed(text) {
   return tags.includes("ask") && (tags.includes("his") || tags.includes("student"));
 }
 
+/** Editor convention: `[the question] His answer.` — recorded, not a speaker guess. */
+export function splitBracketAsked(text) {
+  const m = String(text ?? "").match(/^\s*\[([^\]]{8,280})\]\s+([\s\S]+)$/);
+  if (!m) return null;
+  const asked = tidyAsked(m[1]);
+  const quote = tidyQuote(m[2]);
+  if (!asked || !quote || !/\?/.test(asked)) return null;
+  return { asked, quote };
+}
+
 export function faceCard(card) {
   if (!card) return card;
   if (card.asked && card.quote) return card.kind ? card : { ...card, kind: "question" };
@@ -154,6 +164,11 @@ export function faceCard(card) {
   if (!raw) return card;
   const labeled = splitLabeled(raw);
   if (labeled?.asked && labeled.quote) return { ...card, asked: labeled.asked, quote: labeled.quote, kind: "question" };
+  const bracket = splitBracketAsked(raw);
+  if (bracket) return { ...card, asked: bracket.asked, quote: bracket.quote, kind: "question" };
+  // Checked lines keep the editor's words. Guessing speakers is only for
+  // unlabeled caption/auto cards (search), never for the morning opening.
+  if (card.type === "line") return card;
   if (!looksMixed(raw)) return card;
   const split = splitVoices(raw);
   if (split.asked && split.quote) return { ...card, asked: split.asked, quote: split.quote, kind: "question" };
@@ -165,6 +180,53 @@ export function faceCard(card) {
   return card;
 }
 
+const BIND_NEXT = /^(because|so|means|that is|that's|which|and mainly|like it's)\b/i;
+
+/** One on-screen beat. Aim: tens of words. Never cuts inside a sentence. */
+export function shouldBind(a, b) {
+  const left = String(a ?? "").trim();
+  const right = String(b ?? "").trim();
+  if (!left || !right) return false;
+  if (!/[?]$/.test(left)) return false;
+  if (BIND_NEXT.test(right)) return true;
+  return wordCount(left) <= 8;
+}
+
+export function quoteSpans(text) {
+  return String(text ?? "").split(/\s*(?:…|\.\.\.)\s*/).map(tidy).filter(Boolean);
+}
+
+export function beatsOf(text) {
+  const out = [];
+  for (const span of quoteSpans(text)) {
+    const sents = splitSentences(span);
+    for (let i = 0; i < sents.length; ) {
+      let beat = sents[i];
+      while (i + 1 < sents.length && shouldBind(beat, sents[i + 1])) {
+        i += 1;
+        beat = `${beat} ${sents[i]}`;
+      }
+      i += 1;
+      if (beat) out.push(beat);
+    }
+  }
+  return out.length ? out : (tidy(text) ? [tidy(text)] : []);
+}
+
+/** Opening drip: first beat of recorded text. Remainder stays on `sourceQuote`. */
+export function faceOpen(card) {
+  const base = faceCard(card);
+  if (!base) return base;
+  const full = textOf(base);
+  const beats = beatsOf(full);
+  return {
+    ...base,
+    quote: beats[0] || full,
+    sourceQuote: full,
+    restBeats: beats.slice(1),
+  };
+}
+
 export function isClassAdmin(s) {
   const t = String(s ?? "");
   if (CLASS_WRAP.test(t)) return true;
@@ -172,7 +234,12 @@ export function isClassAdmin(s) {
   return false;
 }
 
+// Transcript-marked student report stored as a checked line. Not audio-verified.
+// Keep it out of the morning draw until an editor hears the tape.
+const UNTRUSTED_FACE = new Set(["JhaJWWTtP7c-0"]);
+
 export function canFace(card) {
+  if (UNTRUSTED_FACE.has(card?.id)) return false;
   const f = faceCard(card);
   const quote = textOf(f).trim();
   if (!quote) return false;
@@ -219,58 +286,100 @@ function containedIn(hay, needle) {
  * fillers, stutters, small rewordings and "…" elisions, so each elided piece is
  * matched word by word in order with a little slack instead of as an exact substring.
  */
-function quoteEnd(quote, text) {
+function alignPieceIn(piece, text) {
   const toks = tokens(text).filter((t) => t.w.length >= ALIGN_WORD);
-  if (!toks.length) return 0;
-  let cut = 0;
-  for (const piece of String(quote ?? "").split(/…|\.\.\./)) {
-    const q = wordsOf(piece).filter((w) => w.length >= ALIGN_WORD);
-    if (q.length < 3) continue;
-    const alignFrom = (start) => {
-      let j = 0, matched = 0, last = start;
-      for (let i = start; i < toks.length && j < q.length && i - last <= ALIGN_GAP; i++) {
-        const k = q.slice(j, j + ALIGN_LOOKAHEAD).indexOf(toks[i].w);
-        if (k < 0) continue;
-        j += k + 1;
-        matched += 1;
-        last = i;
-      }
-      return { matched, end: toks[last].end };
-    };
-    const heads = q.slice(0, ALIGN_LOOKAHEAD);
-    let best = { matched: 0, end: 0 };
-    for (let i = 0; i < toks.length; i++) {
-      if (!heads.includes(toks[i].w)) continue;
-      const a = alignFrom(i);
-      if (a.matched > best.matched) best = a;
+  const q = wordsOf(piece).filter((w) => w.length >= ALIGN_WORD);
+  if (!toks.length || q.length < 3) return null;
+  const alignFrom = (start) => {
+    let j = 0, matched = 0, last = start, first = start;
+    for (let i = start; i < toks.length && j < q.length && i - last <= ALIGN_GAP; i++) {
+      const k = q.slice(j, j + ALIGN_LOOKAHEAD).indexOf(toks[i].w);
+      if (k < 0) continue;
+      if (!matched) first = i;
+      j += k + 1;
+      matched += 1;
+      last = i;
     }
-    if (best.matched >= ALIGN_MIN * q.length) cut = Math.max(cut, best.end);
+    return { matched, start: toks[first].end - toks[first].w.length, end: toks[last].end };
+  };
+  const heads = q.slice(0, ALIGN_LOOKAHEAD);
+  let best = { matched: 0, start: 0, end: 0 };
+  for (let i = 0; i < toks.length; i++) {
+    if (!heads.includes(toks[i].w)) continue;
+    const a = alignFrom(i);
+    if (a.matched > best.matched) best = a;
+  }
+  if (best.matched < ALIGN_MIN * q.length) return null;
+  return best;
+}
+
+function quoteEnd(quote, text) {
+  let cut = 0;
+  for (const piece of quoteSpans(quote)) {
+    const hit = alignPieceIn(piece, text);
+    if (hit) cut = Math.max(cut, hit.end);
   }
   return cut;
 }
 
-/** Group the caption stream into speaker turns: his / ask / student / admin. */
+function locatePiece(piece, chunks, fromT) {
+  const t0 = Math.max(0, (fromT ?? 0) - 8);
+  const win = chunks.filter((c) => c.t >= t0 && c.t <= t0 + 210);
+  if (!win.length) return null;
+  const joined = win.map((c) => c.text).join(" ");
+  const hit = alignPieceIn(piece, joined);
+  if (!hit) return null;
+  let off = 0, tStart = win[0].t, tEnd = win[0].t;
+  for (const c of win) {
+    const next = off + c.text.length + 1;
+    if (hit.start >= off && hit.start < next) tStart = c.t;
+    if (hit.end > off) tEnd = c.t;
+    off = next;
+  }
+  return { tStart, tEnd };
+}
+
+export function alignQuoteSpans(quote, chunks, aroundT) {
+  const pieces = quoteSpans(quote);
+  if (pieces.length <= 1) {
+    const hit = locatePiece(pieces[0] || quote, chunks, aroundT ?? 0);
+    return hit ? [{ piece: pieces[0] || quote, ...hit }] : [{ piece: pieces[0] || quote, tStart: aroundT ?? 0, tEnd: aroundT ?? 0 }];
+  }
+  const list = [...chunks].sort((a, b) => a.t - b.t);
+  const spans = [];
+  let fromT = Math.max(0, (aroundT ?? 0) - 20);
+  for (const piece of pieces) {
+    const hit = locatePiece(piece, list, fromT);
+    if (hit) {
+      spans.push({ piece, ...hit });
+      fromT = hit.tEnd;
+    } else {
+      spans.push({ piece, tStart: null, tEnd: null });
+    }
+  }
+  return spans;
+}
+
+const SKIP_CAPTION = [
+  /the way i i don't know if it's correct the way i understand/i,
+  /i also noticed that like now you mentioned that when i eat less/i,
+];
+
+function skipCaption(s) {
+  const t = String(s ?? "");
+  return SKIP_CAPTION.some((re) => re.test(t));
+}
+
+/** One caption sentence per turn. Do not glue a talk into one paragraph. */
 export function turnsOf(stream) {
   const turns = [];
   for (const s of stream) {
+    if (skipCaption(s.text)) continue;
     const tag = tagSentence(s.text);
     if (tag === "skip" || tag === "filler") continue;
     let who = whoOf(tag);
-    const last = turns.at(-1);
-    if (who === "unknown") {
-      if (last) {
-        last.parts.push(s);
-        last.text = last.parts.map((p) => p.text).join(" ");
-        continue;
-      }
-      who = "his";
-    }
-    if (last && last.who === who) {
-      last.parts.push(s);
-      last.text = last.parts.map((p) => p.text).join(" ");
-    } else {
-      turns.push({ who, tag, parts: [s], text: s.text, t: s.t });
-    }
+    if (who === "unknown") who = "his";
+    turns.push({ who, tag, parts: [s], text: s.text, t: s.t });
   }
   return turns;
 }
@@ -289,9 +398,14 @@ export function alongTurns(stream) {
     const t = turns[i];
     if (t.who === "admin" || t.who === "student") { i++; continue; }
     if (t.who === "his") {
-      const text = tidyQuote(t.text);
-      if (text && !isClassAdmin(text) && fresh(text)) out.push({ text, t: t.t });
-      i++;
+      let text = tidyQuote(t.text);
+      let j = i + 1;
+      while (j < turns.length && turns[j].who === "his" && shouldBind(text, turns[j].text)) {
+        text = `${text} ${tidyQuote(turns[j].text)}`;
+        j += 1;
+      }
+      if (text && !isClassAdmin(text) && fresh(text)) out.push({ text, t: t.t, source: "caption" });
+      i = j;
       continue;
     }
     // ask: pair with his next turn when he answers immediately; otherwise stop
@@ -316,30 +430,46 @@ export function alongTurns(stream) {
  * captions around the card's second and everything up to its last word is dropped;
  * when it cannot be located, the stream starts at the card's second.
  */
+function inEllipsisGap(t, spans) {
+  for (let i = 0; i < spans.length - 1; i++) {
+    const a = spans[i], b = spans[i + 1];
+    if (a.tEnd == null || b.tStart == null) continue;
+    if (b.tStart > a.tEnd + 2 && t > a.tEnd && t < b.tStart) return true;
+  }
+  return false;
+}
+
 export function sentenceStream(card, chunks) {
-  const quote = textOf(card);
+  const quote = card.sourceQuote || textOf(card);
   const shown = new Set([quote, card.asked].filter(Boolean).map((s) => wordsOf(s).join(" ")));
   const list = [...chunks].sort((a, b) => a.t - b.t);
+  const spans = card._spans ?? alignQuoteSpans(quote, list, card.t);
+  const lastEnd = [...spans].reverse().find((s) => s.tEnd != null)?.tEnd;
+  const fromT = lastEnd ?? card.t;
   const before = list.filter((c) => c.t < card.t).at(-1);
   const around = [before, ...list.filter((c) => c.t >= card.t && c.t <= card.t + QUOTE_SPAN_S)].filter(Boolean);
   const joined = around.map((c) => c.text).join(" ");
-  const cut = quoteEnd(quote, joined);
+  const cut = lastEnd == null ? quoteEnd(quote, joined) : 0;
   const starts = new Map();
   let offset = 0;
   for (const c of around) { starts.set(c, offset); offset += c.text.length + 1; }
   const stream = [];
+  const horizon = fromT + 8 * 60;
   for (const ch of list) {
+    if (ch.t > horizon) break;
+    if (inEllipsisGap(ch.t, spans)) continue;
+    if (ch.t < fromT && !(starts.has(ch) && lastEnd == null)) continue;
     let text = ch.text;
-    if (starts.has(ch)) {
+    if (lastEnd == null && starts.has(ch)) {
       const from = Math.max(cut, starts.get(ch));
       text = from < starts.get(ch) + ch.text.length ? joined.slice(from, starts.get(ch) + ch.text.length) : "";
       if (ch === before && !cut) text = "";
-    } else if (ch.t < card.t) continue;
+    } else if (ch.t < fromT) continue;
     if (!text) continue;
     text = text.replace(/\([^)]*whisper hallucinated[^)]*\)/ig, " ").replace(/\s+/g, " ").trim();
     for (const s of splitSentences(text)) {
       const key = wordsOf(s).join(" ");
-      if (key.length < 12 || shown.has(key) || containedIn(quote, s) || isClassAdmin(s) || /whisper hallucinated|likely silence/i.test(s)) continue;
+      if (key.length < 12 || shown.has(key) || containedIn(quote, s) || isClassAdmin(s) || skipCaption(s) || /whisper hallucinated|likely silence/i.test(s)) continue;
       shown.add(key);
       stream.push({ text: s, t: Math.max(ch.t, card.t) });
     }
@@ -347,23 +477,33 @@ export function sentenceStream(card, chunks) {
   return stream;
 }
 
-/** Everything Further can show for this card, in order. The reader walks it with a cursor. */
+/** Remaining editor beats, then caption beats after the last aligned span. */
 export function furtherAfter(card, chunks) {
-  const quote = textOf(card);
-  return alongTurns(sentenceStream(card, chunks)).filter((x) => !containedIn(quote, x.text));
+  const base = faceCard({ ...card, quote: card.sourceQuote || textOf(card), type: card.type });
+  const full = card.sourceQuote || textOf(base);
+  const rest = card.restBeats ?? beatsOf(full).slice(1);
+  const spans = alignQuoteSpans(full, chunks, card.t);
+  const quoteTurns = rest.map((text, i) => ({
+    text,
+    t: spans[Math.min(i + 1, Math.max(spans.length - 1, 0))]?.tStart ?? card.t,
+    source: "quote",
+  }));
+  const captions = alongTurns(sentenceStream({ ...card, sourceQuote: full, asked: base.asked, _spans: spans }, chunks));
+  const quoted = [beatsOf(full)[0], ...rest].filter(Boolean);
+  const seen = new Set(quoted.map((t) => wordsOf(t).join(" ")));
+  const out = [...quoteTurns];
+  for (const x of captions) {
+    const key = wordsOf(x.text).join(" ");
+    if (key.length < 12 || seen.has(key)) continue;
+    if (quoted.some((q) => containedIn(q, x.text) || containedIn(x.text, q))) continue;
+    if (out.some((y) => containedIn(y.text, x.text) || containedIn(x.text, y.text))) continue;
+    seen.add(key);
+    out.push(x);
+  }
+  return out.slice(0, 48);
 }
 
-/** The next passage from `turns`: about `want` paragraphs, stopping early at a new question. */
-export function takePassage(turns, want) {
-  const out = [];
-  let words = 0;
-  const minWords = want * 12, maxWords = want * 26;
-  for (const s of turns) {
-    if (s.asked && out.length && words >= minWords) break;
-    out.push(s);
-    words += `${s.asked ?? ""} ${s.text}`.split(/\s+/).filter(Boolean).length;
-    if (out.length >= want && words >= minWords) break;
-    if (words >= maxWords) break;
-  }
-  return out;
+/** One beat per click. `want` is kept for callers and ignored. */
+export function takePassage(turns, _want) {
+  return turns.length ? [turns[0]] : [];
 }
