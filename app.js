@@ -330,6 +330,7 @@ function viewMoment() {
 const INTRO = {
   lead: "A year later, I returned to an old video of Kaan and noticed things I didn’t remember hearing that way before. That inspired me to make this: a little chance to return, notice something fresh, and sit with it in the moments between things. Small transitional spaces in which we can practice, imagine, and think.",
   how: "Read a little. Tap the words to hear Kaan. Follow “Further” when you want to stay with the thought.",
+  note: "Notice an error, or have a suggestion? I’d love to hear from you.",
 };
 
 function viewIntro() {
@@ -338,6 +339,7 @@ function viewIntro() {
     <div class="intro" role="dialog" aria-modal="true" aria-labelledby="intro-h" tabindex="-1">
       <p id="intro-h">${esc(INTRO.lead)}</p>
       <p class="intro-how">${esc(INTRO.how)}</p>
+      <p class="intro-note">${esc(INTRO.note)}</p>
       <button class="intro-x" data-act="intro-close" type="button">Close</button>
     </div>
   </div>`;

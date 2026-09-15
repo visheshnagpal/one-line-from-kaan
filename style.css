@@ -297,6 +297,7 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 .result .time { flex-shrink: 0; }
 
 .foot {
+  margin-top: auto;
   padding-top: 3rem;
 }
 .about {
@@ -337,7 +338,8 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   color: var(--body);
   margin: 0 0 1rem;
 }
-.intro-how { color: var(--whisper); }
+.intro-how,
+.intro-note { color: var(--whisper); }
 .intro-x {
   color: var(--whisper);
   font-size: 0.8125rem;
