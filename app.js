@@ -264,7 +264,13 @@ function takePassage(stream, want) {
   let words = 0;
   const minWords = want * 12, maxWords = want * 26;
   for (const s of stream) {
-    const n = `${s.asked ?? ""} ${s.text}`.split(/\s+/).filter(Boolean).length;
+    const blob = `${s.asked ?? ""} ${s.text}`;
+    if (out.some((x) => {
+      const a = `${x.asked ?? ""} ${x.text}`.toLowerCase();
+      const b = blob.toLowerCase();
+      return a.includes(b.slice(0, Math.min(48, b.length))) || b.includes(a.slice(0, Math.min(48, a.length)));
+    })) continue;
+    const n = blob.split(/\s+/).filter(Boolean).length;
     if (s.asked && out.length && words >= minWords) break;
     out.push(s);
     words += n;
@@ -317,12 +323,12 @@ function viewAsk() {
   }).join("");
   const q = state.query.trim();
   const empty = q.length >= 2 && !state.results.length && !state.searchStatus.startsWith("loading")
-    ? `<div class="status">Nothing close. Try other words — or ask him on Saturday.</div>` : "";
+    ? `<div class="status">Nothing close. Try other words — or ask Kaan on Saturday.</div>` : "";
   const hint = !q && !state.searchStatus
-    ? "Ask in your own words. It finds the moment he talked about it — every recording."
+    ? "Ask in your own words. It finds the moment Kaan talked about it — every recording."
     : state.searchStatus;
   return `<div class="ask">
-    <input id="ask" type="search" autocomplete="off" placeholder="What did he say about this?" value="${esc(state.query)}">
+    <input id="ask" type="search" autocomplete="off" placeholder="What did Kaan say about this?" value="${esc(state.query)}">
     <div class="status">${esc(hint)}</div>
     ${rows ? `<div class="results">${rows}</div>` : empty}
   </div>`;
@@ -336,7 +342,7 @@ function viewMoment() {
   const raw = c.type !== "line" && !c.asked;
   return `<div class="moment">
     ${c.asked ? `<p class="asked">${esc(c.asked)}</p>` : ""}
-    ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Hear him say it">${esc(quote)}</button>` : ""}
+    ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Hear Kaan say it">${esc(quote)}</button>` : ""}
     <div class="src">
       <span>${esc(c.session)}</span>
       <a class="time${state.watching ? " on" : ""}" href="${yt(c.video, start)}" target="_blank" rel="noopener" data-act="watch">${fmtTime(c.t)}</a>

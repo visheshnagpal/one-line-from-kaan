@@ -6,6 +6,7 @@
 const NAMES = "joe|anita|sophia|shane|iris|anna|adria|olivia|reed|patty|neel|vishesh|tatiana|ismed|nia|nha|ada";
 const FILLER_SENT = /^(yeah|yes|okay|ok|exactly|mhm|mm+|right|beautiful|perfect|nice|good|thank you|thanks|wow|sure|no|hm+|uh-huh|correct|true)[.!?]?$/i;
 const ADMIN_HARD = /\b(can you hear|hear me|recording|zoom|mute|unmute|whatsapp|share your screen|screen share|are you there|is everyone|let me check|one second|hold on|any (other )?questions)\b/i;
+const CLASS_WRAP = /\b(this will be our last class|ask (it )?in our regular class|see you (next week|on the next class|in the next|guys)|thank you (guys )?for joining|i will send you the recording|added you to (the )?(whatsapp|calendar)|can you hear me|share your screen|okay,? anything else|any other questions about this)\b/i;
 const NAME_TURN = new RegExp(String.raw`\b(?:yes|okay|ok|thanks?|hi|hello)\s+(${NAMES})\b`, "i");
 const NAME_ONLY = new RegExp(String.raw`^(?:yes\.?\s*)+(${NAMES})\.?$`, "i");
 const STUDENT_LABEL = /\bstudent\s*(?:\([^)]*\))?\s*:/i;
@@ -49,6 +50,7 @@ export function tagSentence(text) {
   if (!s) return "skip";
   if (FILLER_SENT.test(s)) return "filler";
   if (NAME_ONLY.test(s)) return "admin";
+  if (CLASS_WRAP.test(s)) return "admin";
   if (ADMIN_HARD.test(s) && wordCount(s) < 22) return "admin";
   if (isAsk(s)) return "ask";
   const studentHits = countCue(STUDENT_STRONG, s);
@@ -163,6 +165,13 @@ export function faceCard(card) {
   return card;
 }
 
+export function isClassAdmin(s) {
+  const t = String(s ?? "");
+  if (CLASS_WRAP.test(t)) return true;
+  if (ADMIN_HARD.test(t) && wordCount(t) < 28) return true;
+  return false;
+}
+
 export function canFace(card) {
   const f = faceCard(card);
   const quote = textOf(f).trim();
@@ -170,6 +179,7 @@ export function canFace(card) {
   if (f.asked) return true;
   if (NAME_TURN.test(quote) && /\?/.test(quote)) return false;
   if (STUDENT_LABEL.test(quote) && KAAN_LABEL.test(quote)) return false;
+  if (isClassAdmin(quote) && wordCount(quote) < 70) return false;
   return true;
 }
 
@@ -231,7 +241,9 @@ export function alongTurns(stream) {
     if (t.who === "admin" || t.who === "student") { i++; continue; }
     if (t.who === "his") {
       const text = tidyQuote(t.text);
-      if (text) out.push({ text, t: t.t });
+      if (text && !isClassAdmin(text) && !out.some((x) => containedIn(x.text, text) || containedIn(text, x.text))) {
+        out.push({ text, t: t.t });
+      }
       i++;
       continue;
     }
@@ -264,7 +276,7 @@ export function sentenceStream(card, chunks, already = []) {
     text = text.replace(/\([^)]*whisper hallucinated[^)]*\)/ig, " ").replace(/\s+/g, " ").trim();
     for (const s of splitSentences(text)) {
       const key = wordsOf(s).join(" ");
-      if (key.length < 12 || shown.has(key) || containedIn(quote, s) || /whisper hallucinated|likely silence/i.test(s)) continue;
+      if (key.length < 12 || shown.has(key) || containedIn(quote, s) || isClassAdmin(s) || /whisper hallucinated|likely silence/i.test(s)) continue;
       shown.add(key);
       stream.push({ text: s, t: Math.max(ch.t, card.t) });
     }

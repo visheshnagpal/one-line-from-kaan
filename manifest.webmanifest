@@ -1,7 +1,7 @@
 {
   "name": "One line from Kaan",
   "short_name": "One line",
-  "description": "One line of Kaan's, and the moment he said it.",
+  "description": "One line of Kaan's, and the moment Kaan said it.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
