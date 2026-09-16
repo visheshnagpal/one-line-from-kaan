@@ -565,7 +565,7 @@ document.addEventListener("visibilitychange", () => { if (document.hidden) saveP
 let swipe = null, suppressClickUntil = 0;
 app.addEventListener("touchstart", (e) => {
   const t = e.touches[0];
-  swipe = e.touches.length === 1 && !state.asking && !state.intro && !state.watching
+  swipe = e.touches.length === 1 && !state.asking && !state.intro
     && t.clientX > 24 && t.clientX < innerWidth - 24
     ? { x: t.clientX, y: t.clientY } : null;
 }, { passive: true });
