@@ -438,8 +438,8 @@ function viewIntro() {
     <div class="intro" role="dialog" aria-modal="true" aria-label="How to use this site" tabindex="-1">
       <p>Excerpts from Kaan’s recorded teachings.</p>
       <ul>
-        <li><strong>Next:</strong> swipe left, press →, or tap @insideout.tepetaklak.</li>
-        <li><strong>Previous:</strong> swipe right or press ←.</li>
+        <li><strong>Next:</strong> swipe left, press →, or click the right arrow.</li>
+        <li><strong>Previous:</strong> swipe right, press ←, or click the left arrow.</li>
         <li><strong>Read more:</strong> tap “Further.”</li>
         <li><strong>Original video:</strong> tap the quote or timestamp.</li>
         <li><strong>Search:</strong> tap the magnifying glass.</li>
@@ -461,6 +461,10 @@ function view() {
       </button>
     </div>
     ${state.asking ? viewAsk() : viewMoment()}
+    ${!state.asking ? `<nav class="cookie-nav" aria-label="Cookie navigation">
+      <button data-act="previous" aria-label="Previous cookie" title="Previous cookie (←)" ${trailPos <= 0 ? "disabled" : ""}>←</button>
+      <button data-act="next" aria-label="Next cookie" title="Next cookie (→)">→</button>
+    </nav>` : ""}
     <footer class="foot">
       <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}"><span aria-hidden="true">?</span></button>
     </footer>
@@ -498,6 +502,8 @@ function wire() {
       render();
       return;
     }
+    if (act === "previous") travel(-1);
+    if (act === "next") travel(1);
     if (act === "watch") watch(state.card, ev);
     if (act === "further") readFurther();
     if (act === "intro") {
@@ -566,7 +572,7 @@ app.addEventListener("click", (e) => {
   if (Date.now() < suppressClickUntil) { e.preventDefault(); e.stopImmediatePropagation(); }
 }, true);
 document.addEventListener("keydown", (e) => {
-  if (state.asking || state.intro || state.watching || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if (state.asking || state.intro || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || e.target.isContentEditable || e.altKey || e.metaKey || e.ctrlKey) return;
   if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
     e.preventDefault(); travel(e.key === "ArrowLeft" ? -1 : 1);
   }

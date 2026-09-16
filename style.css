@@ -336,7 +336,7 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   padding-top: 3rem;
 }
 .about {
-  color: var(--whisper);
+  color: rgba(0, 0, 0, 0.3);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -347,12 +347,12 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 .about span {
   display: grid;
   place-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
   border: 1px solid currentColor;
   border-radius: 50%;
   font-family: sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.6875rem;
   line-height: 1;
 }
 .about:hover, .about[aria-expanded="true"] { color: var(--ink); }
@@ -361,7 +361,7 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   position: fixed;
   inset: 0;
   z-index: 8;
-  background: rgba(253, 253, 252, 0.72);
+  background: var(--bg);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -373,11 +373,15 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 }
 .intro {
   width: min(36.375rem, 100%);
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  background: var(--bg);
   max-height: min(32rem, 80dvh);
   overflow: auto;
   padding: 1.25rem 0 0;
 }
-.intro p {
+.intro p, .intro ul {
   font-size: 0.875rem;
   font-weight: 460;
   line-height: 1.45;
@@ -385,6 +389,10 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   color: var(--body);
   margin: 0 0 1rem;
 }
+.intro ul { list-style: none; margin-bottom: 1.25rem; }
+.intro li + li { margin-top: 0.5rem; }
+html.intro-open .chrome { visibility: hidden; }
+html.intro-open::before { display: none; }
 .intro-how,
 .intro-note { color: var(--whisper); }
 .intro-x {
@@ -427,4 +435,30 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 }
 @media (prefers-reduced-motion: reduce) {
   .new-passage { animation: none; }
+}
+
+/* Edge controls remain reachable without interrupting the reading column. */
+.cookie-nav {
+  position: fixed;
+  inset: 50% 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 max(0.25rem, calc((100vw - var(--measure)) / 2 - 3.5rem));
+  pointer-events: none;
+  z-index: 3;
+  transform: translateY(-50%);
+}
+.cookie-nav button {
+  pointer-events: auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.125rem;
+  color: rgba(0, 0, 0, 0.08);
+  transition: color 150ms ease;
+}
+.cookie-nav button:hover, .cookie-nav button:focus-visible { color: var(--soft); }
+.cookie-nav button:disabled { visibility: hidden; pointer-events: none; }
+@media (max-width: 768px) {
+  .cookie-nav { padding: 0; }
+  .cookie-nav button { width: 1.5rem; }
 }
