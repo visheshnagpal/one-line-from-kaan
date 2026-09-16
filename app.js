@@ -1,4 +1,4 @@
-// Cookies from Kaan — a Moment. Open or refresh: one checked line. Tap it: that second on YouTube.
+// Cookies from Kaan — a Moment. Return to the same line until you choose another. Tap it: that second on YouTube.
 // Search is a closed lens. Deck / index / log stay behind this face.
 import { buildBags, rankKeyword, rankHybrid } from "./rank.js";
 import { faceCard, faceOpen, furtherAfter, takePassage, textOf as voiceText, loadReaderEdits, isReviewedCookie, provenanceOf } from "./voice.js";
@@ -59,6 +59,33 @@ const state = {
   along: null, // { turns, pos }: everything Further can show for this card, and how far the reader is
   intro: false,
 };
+const PLACE_KEY = "cookie-reading-place-v1";
+let trail = [], trailPos = -1, restoring = false;
+try {
+  const saved = JSON.parse(localStorage.getItem(PLACE_KEY));
+  if (saved?.version === 1 && Array.isArray(saved.entries)) {
+    trail = saved.entries.filter((x) => x?.card?.id && x.card.video && Number.isFinite(x.card.t)).slice(-100);
+    trailPos = Math.min(Math.max(0, saved.index | 0), trail.length - 1);
+  }
+} catch { /* A fresh start when storage is unavailable or damaged. */ }
+function savePlace() {
+  if (!state.card || trailPos < 0 || restoring) return;
+  const entry = trail[trailPos];
+  if (!entry || entry.card.id !== state.card.id) return;
+  if (state.along) entry.pos = state.along.pos;
+  if (!state.asking && !state.intro) entry.scroll = window.scrollY;
+  try { localStorage.setItem(PLACE_KEY, JSON.stringify({ version: 1, entries: trail, index: trailPos })); } catch { /* Reading still works without storage. */ }
+}
+function travel(delta) {
+  if (state.asking || state.intro) return;
+  savePlace();
+  const next = trailPos + delta;
+  if (next < 0) return;
+  if (next >= trail.length) { draw(); return; }
+  trailPos = next;
+  const entry = trail[trailPos];
+  show(byId.get(entry.card.id) ?? entry.card, { restore: entry });
+}
 let introReturn = null;
 let lastQueryLogged = "";
 let embedWatch = null;
@@ -108,7 +135,16 @@ function pick() {
   }
   return fresh[Math.floor(Math.random() * fresh.length)];
 }
-function show(card, { watch = false, hash = false } = {}) {
+function show(card, { watch = false, hash = false, restore = null } = {}) {
+  if (!restore) {
+    savePlace();
+    trail = trail.slice(0, trailPos + 1);
+    trail.push({ card, pos: 0, scroll: 0 });
+    if (trail.length > 100) trail.shift();
+    trailPos = trail.length - 1;
+  }
+  restoring = true;
+  ++searchSeq;
   const opened = faceOpen(card) ?? card;
   state.card = opened;
   state.watching = !!watch;
@@ -126,8 +162,15 @@ function show(card, { watch = false, hash = false } = {}) {
     if (along.opened && textOf(along.opened) && textOf(along.opened) !== textOf(token)) {
       state.card = along.opened;
     }
-    state.along = { turns: along.turns, pos: 0 };
-    if (textOf(state.card) !== textOf(token) || !along.turns.length) render();
+    state.along = { turns: along.turns, pos: Math.min(Math.max(0, restore?.pos | 0), along.turns.length) };
+    if (restore || textOf(state.card) !== textOf(token) || !along.turns.length) render();
+    window.scrollTo(0, restore?.scroll || 0);
+    restoring = false;
+    savePlace();
+  }).catch(() => {
+    if (state.card !== token) return;
+    restoring = false;
+    savePlace();
   });
 }
 async function alongOf(card) {
@@ -290,6 +333,7 @@ async function readFurther() {
   const along = state.along;
   const more = takePassage(along.turns.slice(along.pos), 1);
   along.pos += more.length;
+  savePlace();
   log("further", { id: card.id, shown: along.pos, of: along.turns.length, added: more.length });
   const button = app.querySelector('[data-act="further"]');
   if (!button) return;
@@ -392,10 +436,14 @@ function viewIntro() {
   if (!state.intro) return "";
   return `<div class="intro-scrim" data-act="intro-close">
     <div class="intro" role="dialog" aria-modal="true" aria-label="How to use this site" tabindex="-1">
-      <p>Tap <strong>@insideout.tepetaklak</strong> for another line.<br>
-      Tap the <strong>quote or timestamp</strong> to open the original video.<br>
-      Tap <strong>Further</strong> to keep reading.<br>
-      Tap <strong>search</strong> to find a topic or ask a question.</p>
+      <p>Excerpts from Kaan’s recorded teachings.</p>
+      <ul>
+        <li><strong>Next:</strong> swipe left, press →, or tap @insideout.tepetaklak.</li>
+        <li><strong>Previous:</strong> swipe right or press ←.</li>
+        <li><strong>Read more:</strong> tap “Further.”</li>
+        <li><strong>Original video:</strong> tap the quote or timestamp.</li>
+        <li><strong>Search:</strong> tap the magnifying glass.</li>
+      </ul>
       <p>Errors or suggestions? <a href="mailto:visheshnagpal@gmail.com">visheshnagpal@gmail.com</a></p>
       <button class="intro-x" data-act="intro-close" type="button">Close</button>
     </div>
@@ -414,7 +462,7 @@ function view() {
     </div>
     ${state.asking ? viewAsk() : viewMoment()}
     <footer class="foot">
-      <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}">about</button>
+      <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}"><span aria-hidden="true">?</span></button>
     </footer>
     </div>
     ${viewIntro()}
@@ -466,7 +514,7 @@ function wire() {
     }
     if (act === "refresh") {
       log("refresh", { from: state.card?.id ?? null });
-      draw();
+      travel(1);
     }
   }));
   const ask = document.getElementById("ask");
@@ -494,21 +542,48 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-window.addEventListener("pageshow", (e) => {
-  if (e.persisted && !location.hash) draw();
+// Save continuously as iOS can suspend a home-screen app without pagehide.
+window.addEventListener("scroll", savePlace, { passive: true });
+window.addEventListener("pagehide", savePlace);
+document.addEventListener("visibilitychange", () => { if (document.hidden) savePlace(); });
+let swipe = null, suppressClickUntil = 0;
+app.addEventListener("touchstart", (e) => {
+  const t = e.touches[0];
+  swipe = e.touches.length === 1 && !state.asking && !state.intro && !state.watching
+    && t.clientX > 24 && t.clientX < innerWidth - 24
+    ? { x: t.clientX, y: t.clientY } : null;
+}, { passive: true });
+app.addEventListener("touchcancel", () => { swipe = null; }, { passive: true });
+app.addEventListener("touchend", (e) => {
+  if (!swipe) return;
+  const t = e.changedTouches[0], dx = t.clientX - swipe.x, dy = t.clientY - swipe.y;
+  swipe = null;
+  if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2 || window.getSelection()?.toString()) return;
+  suppressClickUntil = Date.now() + 500;
+  travel(dx < 0 ? 1 : -1);
+}, { passive: true });
+app.addEventListener("click", (e) => {
+  if (Date.now() < suppressClickUntil) { e.preventDefault(); e.stopImmediatePropagation(); }
+}, true);
+document.addEventListener("keydown", (e) => {
+  if (state.asking || state.intro || state.watching || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    e.preventDefault(); travel(e.key === "ArrowLeft" ? -1 : 1);
+  }
 });
 
 (async () => {
   await readerP;
-  const nav = performance.getEntriesByType?.("navigation")?.[0];
-  const reloaded = nav?.type === "reload";
   const h = location.hash;
   let m;
-  if (!reloaded && (m = h.match(/^#l=([A-Za-z0-9_-]{11}-\d+)$/))) {
+  if ((m = h.match(/^#l=([A-Za-z0-9_-]{11}-\d+)$/))) {
     if (!byId.has(m[1])) await getAuto();
     const c = byId.get(m[1]);
     if (c) { log("deep-link", { id: c.id }); show(c); return; }
   }
   log("visit", { screen: "moment" });
-  draw();
+  if (trailPos >= 0) {
+    const entry = trail[trailPos];
+    show(byId.get(entry.card.id) ?? entry.card, { restore: entry });
+  } else draw();
 })();

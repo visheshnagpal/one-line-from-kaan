@@ -337,15 +337,23 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
 }
 .about {
   color: var(--whisper);
-  font-family: var(--serif);
-  font-size: 0.875rem;
-  font-weight: 460;
-  letter-spacing: -0.0025rem;
-  line-height: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
   padding: 0;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  text-align: left;
+}
+.about span {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: sans-serif;
+  font-size: 0.875rem;
+  line-height: 1;
 }
 .about:hover, .about[aria-expanded="true"] { color: var(--ink); }
 
