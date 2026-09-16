@@ -466,3 +466,15 @@ html.intro-open::before { display: none; }
   .cookie-nav { padding: 0; }
   .cookie-nav button { width: 1.5rem; }
 }
+
+/* Continuation only: more comfortable phone reading, original card unchanged. */
+.along p { color: var(--body); }
+@media (max-width: 768px) {
+  .along p { font-size: 1rem; line-height: 1.55; }
+}
+.along .speaker-label {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--soft);
+  margin: 1.25rem 0 0.35rem;
+}

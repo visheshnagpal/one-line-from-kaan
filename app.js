@@ -1,7 +1,7 @@
 // Cookies from Kaan — a Moment. Return to the same line until you choose another. Tap it: that second on YouTube.
 // Search is a closed lens. Deck / index / log stay behind this face.
 import { buildBags, rankKeyword, rankHybrid } from "./rank.js";
-import { faceCard, faceOpen, furtherAfter, takePassage, textOf as voiceText, loadReaderEdits, isReviewedCookie, provenanceOf } from "./voice.js";
+import { faceCard, faceOpen, furtherAfter, takePassage, textOf as voiceText, loadReaderEdits, loadSpeakerCues, isReviewedCookie, provenanceOf } from "./voice.js?v=speaker-cues-1";
 
 const app = document.getElementById("app");
 const [deck] = await Promise.all([
@@ -173,8 +173,12 @@ function show(card, { watch = false, hash = false, restore = null } = {}) {
     savePlace();
   });
 }
+const speakerP = fetch("data/speaker-cues.json").then(r => {
+  if (!r.ok) throw new Error("Speaker cues unavailable");
+  return r.json();
+}).then(loadSpeakerCues).catch(() => loadSpeakerCues());
 async function alongOf(card) {
-  await readerP;
+  await Promise.all([readerP, speakerP]);
   const byVideo = await getChunksByVideo();
   const list = byVideo.get(card.video) ?? [];
   const opened = faceOpen(card, list) ?? card;
@@ -345,6 +349,12 @@ async function readFurther() {
     button.before(container);
   }
   for (const passage of more) {
+    if (passage.speaker) {
+      const label = document.createElement("p");
+      label.className = "speaker-label";
+      label.textContent = passage.speaker;
+      container.append(label);
+    }
     if (passage.asked) {
       const question = document.createElement('p');
       question.className = 'asked new-passage';
@@ -417,17 +427,17 @@ function viewMoment() {
     ? "This passage is waiting on a listen"
     : origin === "reviewed" ? "" : origin === "draft"
       ? "drafted — awaiting the editor"
-      : "from the captions, not yet reviewed");
+      : "from the captions · speaker unverified");
   return `<div class="moment">
     ${c.asked ? `<p class="asked">${esc(c.asked)}</p>` : ""}
-    ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Hear Kaan say it">${esc(quote)}</button>` : ""}
+    ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Open the original video">${esc(quote)}</button>` : ""}
     <div class="src">
       <span class="src-session">${esc(c.session)}</span><span aria-hidden="true">·</span>
       <a class="time${state.watching ? " on" : ""}" href="${yt(c.video, start)}" target="_blank" rel="noopener" data-act="watch">${fmtTime(c.t)}</a>
       ${originNote ? `<span class="src-note">${esc(originNote)}</span>` : ""}
     </div>
     ${state.watching ? `<div class="frame"><iframe src="${embed(c)}" title="${esc(c.session)} at ${fmtTime(c.t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>` : ""}
-    ${along.length ? `<div class="along">${along.map((s) => `${s.asked ? `<p class="asked">${esc(s.asked)}</p>` : ""}<p>${esc(s.text)}</p>`).join("")}</div>` : ""}
+    ${along.length ? `<div class="along">${along.map((s) => `${s.speaker ? `<p class="speaker-label">${esc(s.speaker)}</p>` : ""}${s.asked ? `<p class="asked">${esc(s.asked)}</p>` : ""}<p>${esc(s.text)}</p>`).join("")}</div>` : ""}
     ${alongEnded() ? "" : `<button class="further" data-act="further">${along.length ? "further" : "read further"}</button>`}
   </div>`;
 }

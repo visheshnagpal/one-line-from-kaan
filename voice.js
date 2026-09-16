@@ -1,3 +1,8 @@
+let SPEAKER_CUES = { videos: {}, labels: [] };
+export function loadSpeakerCues(data = {}) {
+  SPEAKER_CUES = { videos: data.videos ?? {}, labels: data.labels ?? [] };
+}
+
 // Who is speaking on the face and in "further". Port of scripts/lib/lift.mjs cues
 // (the browser cannot import that module). Search may keep a question; a Moment
 // or further block that hits Q&A must show asked + his answer — never a mashed
@@ -620,6 +625,7 @@ export function turnsOf(stream) {
  * and never the same paragraph twice.
  */
 export function alongTurns(stream) {
+  if (stream.some(s => s.speaker)) return stream.map(s => ({ ...s, text: tidyQuote(s.text) }));
   const turns = turnsOf(stream);
   const out = [];
   const fresh = (text) => !out.some((x) => containedIn(x.text, text) || containedIn(text, x.text));
@@ -633,7 +639,7 @@ export function alongTurns(stream) {
         text = `${text} ${tidyQuote(turns[j].text)}`;
         j += 1;
       }
-      if (text && !isClassAdmin(text) && fresh(text)) out.push({ text, t: t.t, source: "caption" });
+      if (text && !isClassAdmin(text) && fresh(text)) out.push({ text, t: t.t, source: "caption", speaker: "Speaker unverified" });
       i = j;
       continue;
     }
@@ -645,7 +651,7 @@ export function alongTurns(stream) {
     if (immediate) {
       const asked = tidyAsked(t.text);
       const text = tidyQuote(next.text);
-      if (asked && text && fresh(text)) out.push({ asked, text, t: next.t, kind: "question" });
+      if (asked && text && fresh(text)) out.push({ asked, text, t: next.t, kind: "question", speaker: "Speaker unverified" });
       i = j + 1;
       continue;
     }
@@ -697,7 +703,48 @@ function sentencesOnJoin(joined, parts, fromT) {
   return out;
 }
 
+function attributedStream(card) {
+  const cues = SPEAKER_CUES.videos[card.video];
+  if (!cues) return null;
+  const quote = applyDisplayTerms(card.sourceQuote || textOf(card));
+  const near = cues.filter(c => c.t >= card.t - 8 && c.t <= card.t + 210);
+  const cut = quoteEnd(quote, near.map(c => c.text).join(" "));
+  let offset = 0, end = card.t;
+  for (const c of near) {
+    offset += c.text.length + 1;
+    if (cut && offset >= cut) { end = c.t; break; }
+  }
+  const groups = [];
+  let group;
+  for (const [cueIndex, c] of cues.entries()) {
+    if (c.t <= end || c.t > end + 480) continue;
+    const label = SPEAKER_CUES.labels.find(x => x.video === card.video && c.t >= x.from && c.t < x.to);
+    const speaker = label?.speaker ?? "Speaker unverified";
+    if (!group || c.turn || group.speaker !== speaker) {
+      group = { text: "", t: c.t, tEnd: c.t, speaker, source: "caption", cueStart: cueIndex, cueEnd: cueIndex };
+      groups.push(group);
+    }
+    group.text += (group.text ? " " : "") + c.text;
+    group.tEnd = c.t;
+    group.cueEnd = cueIndex;
+  }
+  const out = [];
+  for (const g of groups) {
+    if (isWithheld(card.video, g.t, g.text, { tEnd: g.tEnd })) break;
+    for (const sentence of splitSentences(applyDisplayTerms(g.text))) {
+      if (skipCaption(sentence) || FILLER_SENT.test(sentence)) continue;
+      if (containedIn(quote, sentence)) continue;
+      const residue = wordsOf(sentence).filter(w => !/^(okay|ok|yeah|yes|um|uh)$/.test(w));
+      if (residue.length === 1 && residue[0] === wordsOf(quote).at(-1)) continue;
+      out.push({ ...g, text: sentence });
+    }
+  }
+  return out;
+}
+
 export function sentenceStream(card, chunks) {
+  const attributed = attributedStream(card);
+  if (attributed) return attributed;
   const quote = applyDisplayTerms(card.sourceQuote || textOf(card));
   const shown = new Set([quote, card.asked].filter(Boolean).map((s) => wordsOf(s).join(" ")));
   const list = [...chunks].sort((a, b) => a.t - b.t);
@@ -759,12 +806,12 @@ export function furtherAfter(card, chunks) {
   for (const x of captions) {
     const text = applyDisplayTerms(x.text);
     const key = wordsOf(text).join(" ");
-    if (key.length < 12 || seen.has(key)) continue;
+    if ((!x.speaker && key.length < 12) || seen.has(key)) continue;
     if (isWithheld(card.video, x.t, text, { tEnd: x.tEnd })) continue;
     if (wordCount(text) > JOIN_FAIL_WORDS) continue;
     if (echoesQuote(full, text)) continue;
     if (quoted.some((q) => containedIn(q, text) || containedIn(text, q))) continue;
-    if (out.some((y) => containedIn(y.text, text) || containedIn(text, y.text))) continue;
+    if (!x.speaker && out.some((y) => containedIn(y.text, text) || containedIn(text, y.text))) continue;
     seen.add(key);
     out.push({ ...x, text });
   }
