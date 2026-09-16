@@ -467,6 +467,7 @@ function view() {
     </nav>` : ""}
     <footer class="foot">
       <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}"><span aria-hidden="true">?</span></button>
+      <button class="theme-toggle" data-act="theme" type="button" aria-label="Switch to ${document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'} mode" title="Switch to ${document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'} mode"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor" stroke="none"/></svg></button>
     </footer>
     </div>
     ${viewIntro()}
@@ -500,6 +501,16 @@ function wire() {
       if (!state.asking) { state.query = ""; state.results = []; state.searchStatus = ""; }
       log("lens", { on: state.asking });
       render();
+      return;
+    }
+    if (act === "theme") {
+      const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#191918" : "#fdfdfc";
+      try { localStorage.setItem("cookie-theme", theme); } catch { /* The toggle still works without storage. */ }
+      const label = `Switch to ${theme === "dark" ? "light" : "dark"} mode`;
+      el.setAttribute("aria-label", label);
+      el.title = label;
       return;
     }
     if (act === "previous") travel(-1);

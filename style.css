@@ -1,5 +1,9 @@
 :root {
+  color-scheme: light;
   --bg: #fdfdfc;
+  --bg-rgb: 253, 253, 252;
+  --quiet-control: rgba(0, 0, 0, 0.3);
+  --edge-control: rgba(0, 0, 0, 0.08);
   --ink: #111;
   --body: rgba(0, 0, 0, 0.72);
   --whisper: rgba(0, 0, 0, 0.4);
@@ -27,7 +31,7 @@ html:before {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 8rem;
-  background: linear-gradient(180deg, #fdfdfc 0, rgba(253, 253, 252, 0.74) 19%, rgba(253, 253, 252, 0) 100%);
+  background: linear-gradient(180deg, var(--bg) 0, rgba(var(--bg-rgb), 0.74) 19%, rgba(var(--bg-rgb), 0) 100%);
 }
 
 body {
@@ -48,7 +52,7 @@ body {
 :focus-visible { outline: 2px solid rgba(0, 122, 255, 0.5); }
 
 a { color: inherit; text-decoration: none; }
-a:hover { color: #000; }
+a:hover { color: var(--ink); }
 button { font: inherit; color: inherit; background: none; cursor: pointer; }
 
 main {
@@ -191,8 +195,8 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   background: var(--underline);
   transition: background 0.2s ease;
 }
-.time:hover { color: #000; }
-.time:hover:before { background: #666; }
+.time:hover { color: var(--ink); }
+.time:hover:before { background: var(--soft); }
 .time.on { color: var(--ink); }
 
 .along { padding-top: 1.25rem; }
@@ -234,7 +238,7 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   line-height: 1.2;
   margin-top: 0.5rem;
 }
-.frame-cap a { color: rgba(0, 0, 0, 0.65); }
+.frame-cap a { color: var(--body); }
 .frame-cap a:hover { color: var(--ink); }
 
 .ask { animation: staggerIn 0.5s ease both; }
@@ -336,7 +340,7 @@ html:not(.arrived) .moment > :nth-child(n+6) { animation-delay: 0.25s; }
   padding-top: 3rem;
 }
 .about {
-  color: rgba(0, 0, 0, 0.3);
+  color: var(--quiet-control);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -453,7 +457,7 @@ html.intro-open::before { display: none; }
   width: 2.75rem;
   height: 2.75rem;
   font-size: 1.125rem;
-  color: rgba(0, 0, 0, 0.08);
+  color: var(--edge-control);
   transition: color 150ms ease;
 }
 .cookie-nav button:hover, .cookie-nav button:focus-visible { color: var(--soft); }
@@ -462,3 +466,28 @@ html.intro-open::before { display: none; }
   .cookie-nav { padding: 0; }
   .cookie-nav button { width: 1.5rem; }
 }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #191918;
+  --bg-rgb: 25, 25, 24;
+  --ink: #e6e2d9;
+  --body: #bdb9b1;
+  --whisper: #85827b;
+  --soft: #a39f97;
+  --rule: #292927;
+  --rule-strong: #353531;
+  --underline: #56534c;
+  --quiet-control: rgba(230, 226, 217, 0.3);
+  --edge-control: rgba(230, 226, 217, 0.08);
+}
+.foot { display: flex; align-items: center; gap: 0.25rem; }
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--quiet-control);
+}
+.theme-toggle:hover, .theme-toggle:focus-visible { color: var(--soft); }
