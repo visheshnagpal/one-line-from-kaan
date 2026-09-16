@@ -1,16 +1,16 @@
 :root {
   color-scheme: light;
-  --bg: #fdfdfc;
-  --bg-rgb: 253, 253, 252;
+  --bg: #f5f1e8;
+  --bg-rgb: 245, 241, 232;
   --quiet-control: rgba(0, 0, 0, 0.3);
   --edge-control: rgba(0, 0, 0, 0.08);
-  --ink: #111;
-  --body: rgba(0, 0, 0, 0.72);
-  --whisper: rgba(0, 0, 0, 0.4);
-  --soft: rgba(0, 0, 0, 0.5);
-  --rule: #f2f2f2;
-  --rule-strong: #ededed;
-  --underline: #d9d9d9;
+  --ink: #302e29;
+  --body: #615c53;
+  --whisper: #928b7e;
+  --soft: #797266;
+  --rule: #ebe5d9;
+  --rule-strong: #e2dbce;
+  --underline: #d2c9b9;
   --sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
   --measure: 36.375rem;
@@ -466,28 +466,3 @@ html.intro-open::before { display: none; }
   .cookie-nav { padding: 0; }
   .cookie-nav button { width: 1.5rem; }
 }
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #191918;
-  --bg-rgb: 25, 25, 24;
-  --ink: #e6e2d9;
-  --body: #bdb9b1;
-  --whisper: #85827b;
-  --soft: #a39f97;
-  --rule: #292927;
-  --rule-strong: #353531;
-  --underline: #56534c;
-  --quiet-control: rgba(230, 226, 217, 0.3);
-  --edge-control: rgba(230, 226, 217, 0.08);
-}
-.foot { display: flex; align-items: center; gap: 0.25rem; }
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  color: var(--quiet-control);
-}
-.theme-toggle:hover, .theme-toggle:focus-visible { color: var(--soft); }

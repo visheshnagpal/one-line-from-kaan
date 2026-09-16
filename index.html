@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Cookies from Kaan</title>
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#fdfdfc">
+<meta name="theme-color" content="#f5f1e8">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,19 +16,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..600&family=Newsreader:ital,opsz,wght@0,6..72,400..500;1,6..72,400..500&display=swap" rel="stylesheet">
-<script>
-(() => {
-  let theme;
-  try { theme = localStorage.getItem("cookie-theme"); } catch {}
-  if (theme !== "light" && theme !== "dark") theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#191918" : "#fdfdfc";
-})();
-</script>
-<link rel="stylesheet" href="style.css?v=theme-1">
+
+<link rel="stylesheet" href="style.css?v=default-preview-1">
 </head>
 <body>
 <main id="app" aria-live="polite"></main>
-<script type="module" src="app.js?v=theme-2"></script>
+<script type="module" src="app.js?v=default-preview-1"></script>
 </body>
 </html>
