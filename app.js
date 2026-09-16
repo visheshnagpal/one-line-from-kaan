@@ -466,8 +466,8 @@ function view() {
       <button data-act="next" aria-label="Next cookie" title="Next cookie (→)">→</button>
     </nav>` : ""}
     <footer class="foot">
+      <button class="theme-toggle" data-act="theme" type="button" aria-label="Switch to ${document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'} mode" title="Switch to ${document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'} mode"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="11.4"/><path d="M12 0.6a11.4 11.4 0 0 0 0 22.8Z" fill="currentColor" stroke="none"/></svg></button>
       <button class="about" data-act="intro" type="button" aria-label="How to use this site" aria-expanded="${state.intro ? "true" : "false"}"><span aria-hidden="true">?</span></button>
-      <button class="theme-toggle" data-act="theme" type="button" aria-label="Switch to ${document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'} mode" title="Switch to ${document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'} mode"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor" stroke="none"/></svg></button>
     </footer>
     </div>
     ${viewIntro()}
