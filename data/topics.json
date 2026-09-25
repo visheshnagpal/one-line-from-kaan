@@ -1,8 +1,8 @@
 {
  "min": 0.45,
- "looAccuracy": 0.636,
- "looFamilyAccuracy": 0.851,
- "looAccuracyAboveMin": 0.656,
+ "looAccuracy": 0.616,
+ "looFamilyAccuracy": 0.815,
+ "looAccuracyAboveMin": 0.632,
  "families": [
   {
    "name": "Awareness",
@@ -13,8 +13,8 @@
     "Counting the Breath",
     "Posture & Sinking In"
    ],
-   "lines": 166,
-   "auto": 282
+   "lines": 199,
+   "auto": 302
   },
   {
    "name": "Compassion",
@@ -25,8 +25,8 @@
     "Dedication of Merit",
     "Visualization"
    ],
-   "lines": 130,
-   "auto": 166
+   "lines": 153,
+   "auto": 173
   },
   {
    "name": "Wisdom",
@@ -36,8 +36,8 @@
     "Emptiness",
     "Samudayo"
    ],
-   "lines": 136,
-   "auto": 195
+   "lines": 162,
+   "auto": 179
   },
   {
    "name": "Emotions",
@@ -46,8 +46,8 @@
     "The Emotion Mandala",
     "Awakened Wisdom Aspects"
    ],
-   "lines": 97,
-   "auto": 161
+   "lines": 93,
+   "auto": 169
   },
   {
    "name": "Devotion",
@@ -56,169 +56,169 @@
     "Refuge",
     "Prostrations"
    ],
-   "lines": 56,
-   "auto": 79
+   "lines": 54,
+   "auto": 63
   }
  ],
  "topics": [
   {
+   "name": "Open Awareness",
+   "family": "Awareness",
+   "page": "Practices/Open Awareness",
+   "seed": 18,
+   "lines": 61,
+   "auto": 135
+  },
+  {
    "name": "Loving Kindness",
    "family": "Compassion",
    "page": "Practices/Loving Kindness",
-   "seed": 16,
-   "lines": 54,
-   "auto": 86
-  },
-  {
-   "name": "Inquiry",
-   "family": "Wisdom",
-   "page": "Practices/Inquiry",
-   "seed": 15,
-   "lines": 50,
-   "auto": 81
+   "seed": 21,
+   "lines": 71,
+   "auto": 99
   },
   {
    "name": "Naked Emotion",
    "family": "Emotions",
    "page": "Practices/Naked Emotion",
-   "seed": 13,
-   "lines": 44,
-   "auto": 82
+   "seed": 16,
+   "lines": 46,
+   "auto": 98
   },
   {
-   "name": "Open Awareness",
-   "family": "Awareness",
-   "page": "Practices/Open Awareness",
-   "seed": 11,
-   "lines": 34,
-   "auto": 90
-  },
-  {
-   "name": "The View",
-   "family": "Awareness",
-   "page": "Practices/The View",
-   "seed": 19,
+   "name": "Inquiry",
+   "family": "Wisdom",
+   "page": "Practices/Inquiry",
+   "seed": 16,
    "lines": 51,
-   "auto": 56
+   "auto": 68
   },
   {
    "name": "Posture & Sinking In",
    "family": "Awareness",
    "page": "Practices/Posture & Sinking In",
-   "seed": 14,
-   "lines": 40,
-   "auto": 65
+   "seed": 15,
+   "lines": 45,
+   "auto": 63
+  },
+  {
+   "name": "The View",
+   "family": "Awareness",
+   "page": "Practices/The View",
+   "seed": 21,
+   "lines": 45,
+   "auto": 46
   },
   {
    "name": "Samudayo",
    "family": "Wisdom",
    "page": "Practices/Samudayo",
-   "seed": 19,
-   "lines": 38,
-   "auto": 49
+   "seed": 20,
+   "lines": 42,
+   "auto": 43
   },
   {
    "name": "Counting the Breath",
    "family": "Awareness",
    "page": "Practices/Counting the Breath",
+   "seed": 10,
+   "lines": 33,
+   "auto": 42
+  },
+  {
+   "name": "Emptiness",
+   "family": "Wisdom",
+   "page": "Practices/Emptiness",
+   "seed": 16,
+   "lines": 39,
+   "auto": 35
+  },
+  {
+   "name": "Motivation",
+   "family": "Compassion",
+   "page": "Practices/Motivation",
    "seed": 9,
-   "lines": 27,
-   "auto": 52
+   "lines": 26,
+   "auto": 44
   },
   {
    "name": "Awakened Wisdom Aspects",
    "family": "Emotions",
    "page": "Practices/Awakened Wisdom Aspects",
    "seed": 14,
-   "lines": 32,
-   "auto": 47
+   "lines": 25,
+   "auto": 43
+  },
+  {
+   "name": "Interdependence",
+   "family": "Wisdom",
+   "page": "Practices/Interdependence",
+   "seed": 11,
+   "lines": 30,
+   "auto": 33
   },
   {
    "name": "Devotion",
    "family": "Devotion",
    "page": "Practices/Devotion",
    "seed": 14,
-   "lines": 31,
-   "auto": 36
-  },
-  {
-   "name": "Motivation",
-   "family": "Compassion",
-   "page": "Practices/Motivation",
-   "seed": 7,
-   "lines": 22,
-   "auto": 40
-  },
-  {
-   "name": "Emptiness",
-   "family": "Wisdom",
-   "page": "Practices/Emptiness",
-   "seed": 13,
-   "lines": 29,
+   "lines": 32,
    "auto": 29
-  },
-  {
-   "name": "Interdependence",
-   "family": "Wisdom",
-   "page": "Practices/Interdependence",
-   "seed": 10,
-   "lines": 19,
-   "auto": 36
   },
   {
    "name": "The Emotion Mandala",
    "family": "Emotions",
    "page": "Practices/The Emotion Mandala",
    "seed": 15,
-   "lines": 21,
-   "auto": 32
+   "lines": 22,
+   "auto": 28
   },
   {
    "name": "Tonglen",
    "family": "Compassion",
    "page": "Practices/Tonglen",
-   "seed": 12,
-   "lines": 22,
-   "auto": 25
+   "seed": 13,
+   "lines": 24,
+   "auto": 17
   },
   {
    "name": "Prostrations",
    "family": "Devotion",
    "page": "Practices/Prostrations",
    "seed": 8,
-   "lines": 13,
-   "auto": 26
+   "lines": 10,
+   "auto": 22
   },
   {
    "name": "The Switch",
    "family": "Awareness",
    "page": "Practices/The Switch",
    "seed": 8,
-   "lines": 14,
-   "auto": 19
-  },
-  {
-   "name": "Refuge",
-   "family": "Devotion",
-   "page": "Practices/Refuge",
-   "seed": 9,
-   "lines": 12,
-   "auto": 17
+   "lines": 15,
+   "auto": 16
   },
   {
    "name": "Visualization",
    "family": "Compassion",
    "page": "Practices/Visualization",
    "seed": 7,
-   "lines": 14,
-   "auto": 11
+   "lines": 16,
+   "auto": 9
+  },
+  {
+   "name": "Refuge",
+   "family": "Devotion",
+   "page": "Practices/Refuge",
+   "seed": 10,
+   "lines": 12,
+   "auto": 12
   },
   {
    "name": "Dedication of Merit",
    "family": "Compassion",
    "page": "Practices/Dedication of Merit",
    "seed": 9,
-   "lines": 18,
+   "lines": 16,
    "auto": 4
   }
  ]
