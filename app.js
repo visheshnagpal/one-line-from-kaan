@@ -3,6 +3,8 @@
 import { buildBags, rankKeyword, rankHybrid } from "./rank.js";
 import { faceCard, faceOpen, furtherAfter, takePassage, textOf as voiceText, loadReaderEdits, loadSpeakerCues, isReviewedCookie, provenanceOf } from "./voice.js?v=speaker-cues-1";
 
+import { createOutline } from "./outline.js?v=chapters-all-1";
+
 const app = document.getElementById("app");
 const [deck] = await Promise.all([
   fetch("data/deck.json").then((r) => r.json()),
@@ -58,6 +60,7 @@ const state = {
   searchStatus: "",
   along: null, // { turns, pos }: everything Further can show for this card, and how far the reader is
   intro: false,
+  outline: false,
 };
 const PLACE_KEY = "cookie-reading-place-v1";
 let trail = [], trailPos = -1, restoring = false;
@@ -73,11 +76,11 @@ function savePlace() {
   const entry = trail[trailPos];
   if (!entry || entry.card.id !== state.card.id) return;
   if (state.along) entry.pos = state.along.pos;
-  if (!state.asking && !state.intro) entry.scroll = window.scrollY;
+  if (!state.asking && !state.intro && !state.outline) entry.scroll = window.scrollY;
   try { localStorage.setItem(PLACE_KEY, JSON.stringify({ version: 1, entries: trail, index: trailPos })); } catch { /* Reading still works without storage. */ }
 }
 function travel(delta) {
-  if (state.asking || state.intro) return;
+  if (state.asking || state.intro || state.outline) return;
   savePlace();
   const next = trailPos + delta;
   if (next < 0) return;
@@ -381,6 +384,30 @@ function watch(c, ev) {
   if (on) bindEmbedFallback(c);
 }
 
+let sessionsP = null, chaptersP = null;
+const outline = createOutline({
+  getData: async () => {
+    const sessions = await (sessionsP ??= fetch('data/sessions.json').then(r => {
+      if (!r.ok) throw new Error('Recordings unavailable');
+      return r.json();
+    }).catch(e => { sessionsP = null; throw e; }));
+    await readerP;
+    const chapters = await (chaptersP ??= fetch('data/chapters.json').then(r => {
+      if (!r.ok) throw new Error('Chapters unavailable');
+      return r.json();
+    }).catch(() => { chaptersP = null; return { recordings: {} }; }));
+    return { sessions, chapters: chapters.recordings || {}, cards: deck.map(c => faceOpen(c)).filter(c => c && !c.withheld && textOf(c)) };
+  },
+  getCurrent: () => state.card,
+  onOpen: () => {
+    savePlace(); state.outline = true;
+    app.querySelector('.frame iframe')?.contentWindow?.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}), 'https://www.youtube-nocookie.com');
+  },
+  onClose: () => { state.outline = false; },
+  onSelect: c => show(c, { hash: true }),
+  textOf, provenanceOf, esc, fmtTime,
+});
+
 function render() {
   document.documentElement.classList.toggle("intro-open", state.intro);
   app.innerHTML = view();
@@ -432,7 +459,7 @@ function viewMoment() {
     ${c.asked ? `<p class="asked">${esc(c.asked)}</p>` : ""}
     ${quote ? `<button class="quote${raw ? " raw" : ""}" data-act="watch" title="Open the original video">${esc(quote)}</button>` : ""}
     <div class="src">
-      <span class="src-session">${esc(c.session)}</span><span aria-hidden="true">·</span>
+      <button class="src-session recording-source" data-act="recording" aria-label="Open full recording: ${esc(c.session)}">${esc(c.session)}${c.date ? ` · ${esc(c.date)}` : ""}</button><span aria-hidden="true">·</span>
       <a class="time${state.watching ? " on" : ""}" href="${yt(c.video, start)}" target="_blank" rel="noopener" data-act="watch">${fmtTime(c.t)}</a>
       ${originNote ? `<span class="src-note">${esc(originNote)}</span>` : ""}
     </div>
@@ -452,6 +479,7 @@ function viewIntro() {
         <li><strong>Previous:</strong> swipe right, press ←, or click the left arrow.</li>
         <li><strong>Read more:</strong> tap “Further.”</li>
         <li><strong>Original video:</strong> tap the quote or timestamp.</li>
+        <li><strong>Browse:</strong> tap the list for recordings by date. In a recording, ← goes earlier and → later. × returns to your passage.</li>
         <li><strong>Search:</strong> tap the magnifying glass.</li>
       </ul>
       <p>Errors or suggestions? <a href="mailto:visheshnagpal@gmail.com">visheshnagpal@gmail.com</a></p>
@@ -466,9 +494,10 @@ function view() {
     <div class="chrome"${inert}>
     <div class="bar">
       <button class="mark" data-act="refresh" type="button" title="another line">@insideout.tepetaklak</button>
+      <div class="bar-tools"><button class="outline-toggle" data-act="outline" type="button" aria-label="Browse recordings" title="Browse recordings" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3" cy="6" r=".6"/><circle cx="3" cy="12" r=".6"/><circle cx="3" cy="18" r=".6"/></svg></button>
       <button class="lens${state.asking ? " on" : ""}" data-act="ask" title="ask anything" aria-label="ask anything">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 L21 21"/></svg>
-      </button>
+      </button></div>
     </div>
     ${state.asking ? viewAsk() : viewMoment()}
     ${!state.asking ? `<nav class="cookie-nav" aria-label="Cookie navigation">
@@ -505,6 +534,8 @@ function wire() {
   }
   app.querySelectorAll("[data-act]").forEach((el) => el.addEventListener("click", (ev) => {
     const act = el.dataset.act;
+    if (act === "outline") { outline.open(el); return; }
+    if (act === "recording") { outline.open(el, { recording: true }); return; }
     if (act === "ask") {
       state.asking = !state.asking;
       if (!state.asking) { state.query = ""; state.results = []; state.searchStatus = ""; }
@@ -550,7 +581,7 @@ function wire() {
 }
 
 document.addEventListener("keydown", (e) => {
-  if (e.target.tagName === "INPUT") return;
+  if (state.outline || e.target.tagName === "INPUT") return;
   if (e.key === "Escape") {
     if (state.intro) { state.intro = false; render(); app.querySelector('[data-act="intro"]')?.focus(); }
     else if (state.asking) { state.asking = false; state.query = ""; state.results = []; render(); }
@@ -565,7 +596,7 @@ document.addEventListener("visibilitychange", () => { if (document.hidden) saveP
 let swipe = null, suppressClickUntil = 0;
 app.addEventListener("touchstart", (e) => {
   const t = e.touches[0];
-  swipe = e.touches.length === 1 && !state.asking && !state.intro
+  swipe = e.touches.length === 1 && !state.asking && !state.intro && !state.outline
     && t.clientX > 24 && t.clientX < innerWidth - 24
     ? { x: t.clientX, y: t.clientY } : null;
 }, { passive: true });
@@ -582,7 +613,7 @@ app.addEventListener("click", (e) => {
   if (Date.now() < suppressClickUntil) { e.preventDefault(); e.stopImmediatePropagation(); }
 }, true);
 document.addEventListener("keydown", (e) => {
-  if (state.asking || state.intro || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || e.target.isContentEditable || e.altKey || e.metaKey || e.ctrlKey) return;
+  if (state.asking || state.intro || state.outline || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || e.target.isContentEditable || e.altKey || e.metaKey || e.ctrlKey) return;
   if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
     e.preventDefault(); travel(e.key === "ArrowLeft" ? -1 : 1);
   }

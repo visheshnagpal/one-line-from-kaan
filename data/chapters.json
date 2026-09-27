@@ -1,0 +1,3220 @@
+{
+  "version": 2,
+  "recordings": {
+    "MsrU9YBKTjM": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 3,
+          "title": "Welcome and introduction",
+          "group": null
+        },
+        {
+          "t": 116,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 480,
+          "title": "Origins of the teaching",
+          "group": null
+        },
+        {
+          "t": 1337,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 1902,
+          "title": "Introducing wisdom",
+          "group": null
+        },
+        {
+          "t": 2400,
+          "title": "Working with distraction",
+          "group": null
+        },
+        {
+          "t": 2516,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 3330,
+          "title": "Practice questions and homework",
+          "group": null
+        }
+      ]
+    },
+    "iAamklToRIo": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Origins of the teaching",
+          "group": null
+        },
+        {
+          "t": 825,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 1351,
+          "title": "Compassion and wisdom",
+          "group": null
+        },
+        {
+          "t": 1803,
+          "title": "Principles of meditation",
+          "group": null
+        },
+        {
+          "t": 2482,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "T3Mw5Fm8c_U": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Posture questions",
+          "group": null
+        },
+        {
+          "t": 132,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 1650,
+          "title": "Introducing awareness yoga",
+          "group": null
+        },
+        {
+          "t": 1893,
+          "title": "Awareness yoga",
+          "group": "Awareness"
+        },
+        {
+          "t": 2811,
+          "title": "Brushing and resting",
+          "group": "Awareness"
+        },
+        {
+          "t": 2990,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 3060,
+          "title": "Daily practice",
+          "group": null
+        }
+      ]
+    },
+    "BtmhHHS-PlI": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript contains long gaps or repeated-caption artefacts. Chapters mark only identifiable transitions; some practice sections may be missing.",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 157,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 602,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 2189,
+          "title": "Movement practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 2490,
+          "title": "Massage and brushing",
+          "group": "Awareness"
+        },
+        {
+          "t": 2578,
+          "title": "Daily practice",
+          "group": null
+        }
+      ]
+    },
+    "fqc_SrkcxXE": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 171,
+          "title": "Body awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 389,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 2262,
+          "title": "Counting the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 2575,
+          "title": "Awareness with an object",
+          "group": "Awareness"
+        },
+        {
+          "t": 3245,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 3520,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "w5boK2JILGc": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 7,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 96,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 213,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 1713,
+          "title": "Awareness yoga",
+          "group": "Awareness"
+        },
+        {
+          "t": 2238,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 2404,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "1OtkhG5TZNc": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 11,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 303,
+          "title": "Awareness of sound",
+          "group": "Awareness"
+        },
+        {
+          "t": 1757,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1825,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "q0Xzf2ewhBw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 43,
+          "title": "Opening",
+          "group": null
+        },
+        {
+          "t": 394,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 621,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 1294,
+          "title": "Body scan",
+          "group": "Awareness"
+        },
+        {
+          "t": 2539,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 2628,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2689,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "7WyNM-IaFSw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 104,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 227,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 726,
+          "title": "Body scan",
+          "group": "Awareness"
+        },
+        {
+          "t": 1279,
+          "title": "Awareness with an object",
+          "group": "Awareness"
+        },
+        {
+          "t": 2265,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2388,
+          "title": "Daily practice",
+          "group": null
+        }
+      ]
+    },
+    "l6_Oe6YkBiE": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 3,
+          "title": "Awareness with a support",
+          "group": "Awareness"
+        },
+        {
+          "t": 458,
+          "title": "Questions and resistance",
+          "group": null
+        },
+        {
+          "t": 768,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 1340,
+          "title": "Body scan with the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 2372,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2544,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "JhaJWWTtP7c": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 310,
+          "title": "Resting in openness",
+          "group": "Awareness"
+        },
+        {
+          "t": 463,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 843,
+          "title": "Body scan and change",
+          "group": "Awareness"
+        },
+        {
+          "t": 1822,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 2132,
+          "title": "Awareness with an object",
+          "group": "Awareness"
+        },
+        {
+          "t": 2594,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2634,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "lPqQD0aXLm4": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Effort and practice",
+          "group": null
+        },
+        {
+          "t": 476,
+          "title": "Preparing for practice",
+          "group": null
+        },
+        {
+          "t": 653,
+          "title": "Awareness with an object",
+          "group": "Awareness"
+        },
+        {
+          "t": 2210,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2237,
+          "title": "Questions and daily practice",
+          "group": null
+        }
+      ]
+    },
+    "QbR7GpDOiCI": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening questions",
+          "group": null
+        },
+        {
+          "t": 166,
+          "title": "Letting go and impermanence",
+          "group": "Wisdom"
+        },
+        {
+          "t": 892,
+          "title": "Awareness with an object",
+          "group": "Awareness"
+        },
+        {
+          "t": 1398,
+          "title": "Resting in space",
+          "group": "Awareness"
+        },
+        {
+          "t": 2419,
+          "title": "Awareness in movement",
+          "group": "Awareness"
+        },
+        {
+          "t": 2478,
+          "title": "Dedication and questions",
+          "group": null
+        }
+      ]
+    },
+    "TolHZRElLZM": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 56,
+          "title": "Gratitude and open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 229,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 296,
+          "title": "Awareness with an object",
+          "group": "Awareness"
+        },
+        {
+          "t": 809,
+          "title": "From object to open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 2106,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2206,
+          "title": "The next stage of practice",
+          "group": null
+        }
+      ]
+    },
+    "P5axY5qhxCk": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 70,
+          "title": "Posture questions",
+          "group": null
+        },
+        {
+          "t": 205,
+          "title": "Introducing compassion",
+          "group": null
+        },
+        {
+          "t": 322,
+          "title": "Connecting with compassion",
+          "group": "Compassion"
+        },
+        {
+          "t": 688,
+          "title": "Loving-kindness",
+          "group": null
+        },
+        {
+          "t": 926,
+          "title": "Giving and receiving care",
+          "group": "Compassion"
+        },
+        {
+          "t": 2325,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2395,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "E4b7UqJ4iqc": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 138,
+          "title": "Taking refuge",
+          "group": null
+        },
+        {
+          "t": 631,
+          "title": "Compassion practice",
+          "group": "Compassion"
+        },
+        {
+          "t": 1101,
+          "title": "Showing care",
+          "group": "Compassion"
+        },
+        {
+          "t": 1932,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2007,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "mRb36VaUnNc": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 632,
+          "title": "Appearance and emptiness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 784,
+          "title": "Breath and emptiness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1091,
+          "title": "Memory and sense of self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1625,
+          "title": "Bringing inquiry into movement",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2813,
+          "title": "Dedication and discussion",
+          "group": null
+        },
+        {
+          "t": 3443,
+          "title": "Looking for tomorrow",
+          "group": "Wisdom"
+        }
+      ]
+    },
+    "7t7OMbnKXfk": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 522,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 884,
+          "title": "Compassion and love",
+          "group": "Compassion"
+        },
+        {
+          "t": 2040,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2115,
+          "title": "Connection and liberation",
+          "group": null
+        }
+      ]
+    },
+    "63mkxQ2Ms7I": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 7,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 242,
+          "title": "Awareness in movement",
+          "group": "Awareness"
+        },
+        {
+          "t": 431,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 626,
+          "title": "Love and compassion",
+          "group": "Compassion"
+        },
+        {
+          "t": 867,
+          "title": "Expanding the circle",
+          "group": "Compassion"
+        },
+        {
+          "t": 2034,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2099,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "SjK_6b3P1Hw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "The four immeasurables",
+          "group": null
+        },
+        {
+          "t": 310,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 413,
+          "title": "Gratitude and joy",
+          "group": "Compassion"
+        },
+        {
+          "t": 684,
+          "title": "Joy for others",
+          "group": "Compassion"
+        },
+        {
+          "t": 1604,
+          "title": "Expanding the circle",
+          "group": "Compassion"
+        },
+        {
+          "t": 2217,
+          "title": "Dedication and discussion",
+          "group": null
+        }
+      ]
+    },
+    "b8WBhbEhXdc": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 4,
+          "title": "Gratitude and joy",
+          "group": "Compassion"
+        },
+        {
+          "t": 79,
+          "title": "Loving-kindness",
+          "group": "Compassion"
+        },
+        {
+          "t": 219,
+          "title": "Attachment and aversion",
+          "group": "Compassion"
+        },
+        {
+          "t": 876,
+          "title": "Equanimity",
+          "group": "Compassion"
+        },
+        {
+          "t": 1542,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1819,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "fmHh7eT2Crw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 11,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 274,
+          "title": "Equanimity and open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 544,
+          "title": "Inquiry into the self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1731,
+          "title": "Resting and dedication",
+          "group": null
+        },
+        {
+          "t": 1892,
+          "title": "Bringing inquiry into daily life",
+          "group": null
+        },
+        {
+          "t": 2136,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "BGMM8pMQPo0": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 2,
+          "title": "Gratitude and posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 378,
+          "title": "Compassion and aliveness",
+          "group": "Compassion"
+        },
+        {
+          "t": 551,
+          "title": "Inquiry into self and thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2345,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2501,
+          "title": "Practice discussion",
+          "group": null
+        }
+      ]
+    },
+    "6WG19mKWxIE": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript contains long gaps or repeated-caption artefacts. Chapters mark only identifiable transitions; some practice sections may be missing.",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 300,
+          "title": "Gratitude",
+          "group": "Compassion"
+        },
+        {
+          "t": 421,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 876,
+          "title": "Three inquiries",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2534,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2725,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "58LYj5Q_I8U": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 496,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 668,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 1069,
+          "title": "Principles of meditation",
+          "group": null
+        },
+        {
+          "t": 1846,
+          "title": "Examining experience",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1942,
+          "title": "Immediate sensation of breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 2609,
+          "title": "Sitting practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 3019,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 3157,
+          "title": "Daily practice and refuge",
+          "group": null
+        }
+      ]
+    },
+    "o1wgC6icAM4": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript contains long gaps or repeated-caption artefacts. Chapters mark only identifiable transitions; some practice sections may be missing.",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 75,
+          "title": "Counting the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 398,
+          "title": "Contemplating suffering",
+          "group": "Wisdom"
+        },
+        {
+          "t": 712,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 784,
+          "title": "Open awareness and the self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1027,
+          "title": "Inquiry into thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1138,
+          "title": "Inquiry into states of mind",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2155,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "jCfSmSgvaeQ": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 6,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 334,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 950,
+          "title": "Inquiry into the self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1101,
+          "title": "Inquiry into thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1679,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1858,
+          "title": "Questions and daily practice",
+          "group": null
+        }
+      ]
+    },
+    "6o7EyN77mgM": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 469,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 1083,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 1289,
+          "title": "Tonglen",
+          "group": "Compassion"
+        },
+        {
+          "t": 2444,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2642,
+          "title": "Bringing practice into daily life",
+          "group": null
+        }
+      ]
+    },
+    "ZkIqgvE8H8Q": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening",
+          "group": null
+        },
+        {
+          "t": 65,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 302,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 410,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 1577,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1702,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 1974,
+          "title": "Three contemplations",
+          "group": null
+        },
+        {
+          "t": 2996,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "A1Kck5cVpWE": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening questions",
+          "group": null
+        },
+        {
+          "t": 123,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 531,
+          "title": "Self and interdependence",
+          "group": "Wisdom"
+        },
+        {
+          "t": 924,
+          "title": "Sensations and interdependence",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1185,
+          "title": "Giving away the benefits",
+          "group": "Compassion"
+        },
+        {
+          "t": 1491,
+          "title": "Dedication and discussion",
+          "group": null
+        },
+        {
+          "t": 3740,
+          "title": "Closing dedication",
+          "group": null
+        }
+      ]
+    },
+    "Rvms_TsujRQ": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript indicates that the recording was paused during practice. Chapter times follow the recording, not the elapsed practice duration.",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Introducing stillness",
+          "group": null
+        },
+        {
+          "t": 83,
+          "title": "Stillness practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 231,
+          "title": "Stillness and wisdom",
+          "group": null
+        },
+        {
+          "t": 1039,
+          "title": "Standing practice",
+          "group": null
+        },
+        {
+          "t": 1644,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 1789,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "Fa3B7RhxcHw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript indicates that the recording was paused during practice. Chapter times follow the recording, not the elapsed practice duration.",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening questions",
+          "group": null
+        },
+        {
+          "t": 181,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 440,
+          "title": "Tonglen",
+          "group": "Compassion"
+        },
+        {
+          "t": 776,
+          "title": "Stillness practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 834,
+          "title": "Dedication and discussion",
+          "group": null
+        },
+        {
+          "t": 1871,
+          "title": "Closing dedication",
+          "group": null
+        }
+      ]
+    },
+    "-qTITSwolWE": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 46,
+          "title": "Taking refuge",
+          "group": null
+        },
+        {
+          "t": 166,
+          "title": "Tonglen",
+          "group": "Compassion"
+        },
+        {
+          "t": 872,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1182,
+          "title": "Daily practice",
+          "group": null
+        }
+      ]
+    },
+    "X5MajXRJkjw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 163,
+          "title": "Impermanence and motivation",
+          "group": null
+        },
+        {
+          "t": 1459,
+          "title": "Examining the mind",
+          "group": null
+        },
+        {
+          "t": 1605,
+          "title": "Emptiness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2583,
+          "title": "Examining perception",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3045,
+          "title": "Awareness",
+          "group": null
+        },
+        {
+          "t": 3414,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "eiJ8psKsJnc": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 307,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 507,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 635,
+          "title": "Cognition and emotional reactions",
+          "group": null
+        },
+        {
+          "t": 770,
+          "title": "Observing apprehension",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1634,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 2491,
+          "title": "Training the mind",
+          "group": null
+        },
+        {
+          "t": 3621,
+          "title": "Closing dedication",
+          "group": null
+        }
+      ]
+    },
+    "vkPkbU8Ch2Q": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 3,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 137,
+          "title": "Shamatha",
+          "group": "Awareness"
+        },
+        {
+          "t": 469,
+          "title": "Emotions and impermanence",
+          "group": "Wisdom"
+        },
+        {
+          "t": 644,
+          "title": "Coarse and subtle mind",
+          "group": null
+        },
+        {
+          "t": 952,
+          "title": "Working with worry",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1991,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 3409,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "EuFcOTdsMxw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 1381,
+          "title": "Clarity of mind",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2067,
+          "title": "Reflecting on suffering",
+          "group": "Compassion"
+        },
+        {
+          "t": 3155,
+          "title": "Modes of cognition",
+          "group": null
+        },
+        {
+          "t": 3559,
+          "title": "Examining assumptions",
+          "group": "Wisdom"
+        },
+        {
+          "t": 4242,
+          "title": "Closing questions",
+          "group": null
+        }
+      ]
+    },
+    "b4VJrNk0qv0": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 244,
+          "title": "Motivation and refuge",
+          "group": null
+        },
+        {
+          "t": 1085,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 1182,
+          "title": "Counting the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 1745,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1801,
+          "title": "Daily practice and questions",
+          "group": null
+        }
+      ]
+    },
+    "8mbSujVbUzo": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Breathing instructions",
+          "group": null
+        },
+        {
+          "t": 85,
+          "title": "Prostrations",
+          "group": null
+        },
+        {
+          "t": 330,
+          "title": "Connecting with compassion",
+          "group": "Compassion"
+        },
+        {
+          "t": 1336,
+          "title": "Perception and past experience",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1903,
+          "title": "Dedication and questions",
+          "group": null
+        },
+        {
+          "t": 2329,
+          "title": "Examining expectations",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3449,
+          "title": "Practice discussion",
+          "group": null
+        }
+      ]
+    },
+    "cYVRJKsxKBk": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 4,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 966,
+          "title": "Buddha visualization",
+          "group": "Compassion"
+        },
+        {
+          "t": 2389,
+          "title": "Discussion of practice",
+          "group": null
+        }
+      ]
+    },
+    "Zb_y5Acwgxk": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 113,
+          "title": "Introducing wisdom",
+          "group": null
+        },
+        {
+          "t": 681,
+          "title": "Self and awareness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1051,
+          "title": "Wisdom mind of the guru",
+          "group": null
+        },
+        {
+          "t": 2377,
+          "title": "Inseparability",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3287,
+          "title": "Dedication and daily practice",
+          "group": null
+        }
+      ]
+    },
+    "LCSKfLkaT8g": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 67,
+          "title": "Compassion and love",
+          "group": "Compassion"
+        },
+        {
+          "t": 253,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 363,
+          "title": "Examining a moment of breath",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1478,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1590,
+          "title": "Questions and daily practice",
+          "group": null
+        }
+      ]
+    },
+    "S0hfQldZr5k": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice discussion",
+          "group": null
+        },
+        {
+          "t": 1510,
+          "title": "Body scan",
+          "group": "Awareness"
+        },
+        {
+          "t": 1605,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 1660,
+          "title": "Scanning from the head",
+          "group": "Awareness"
+        },
+        {
+          "t": 2395,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "ihIpeb9Rd1Y": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 8,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 169,
+          "title": "Examining the breath",
+          "group": "Wisdom"
+        },
+        {
+          "t": 457,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 944,
+          "title": "Looking directly at thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1385,
+          "title": "Practice discussion",
+          "group": null
+        },
+        {
+          "t": 2445,
+          "title": "Sitting practice",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2762,
+          "title": "Daily practice",
+          "group": null
+        },
+        {
+          "t": 2959,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "swVo02jI8tY": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 432,
+          "title": "Preparing for the body scan",
+          "group": "Awareness"
+        },
+        {
+          "t": 711,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 956,
+          "title": "Body scan",
+          "group": "Awareness"
+        },
+        {
+          "t": 2443,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2805,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "CmVnG7N1gG4": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 11,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 264,
+          "title": "Inquiry into self and thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1540,
+          "title": "Questions and inquiry",
+          "group": null
+        },
+        {
+          "t": 2691,
+          "title": "Discussion of practice",
+          "group": null
+        },
+        {
+          "t": 3320,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "6KvTEsmSnKY": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 87,
+          "title": "From object to open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 262,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 330,
+          "title": "Preparing for compassion practice",
+          "group": null
+        },
+        {
+          "t": 690,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "0QPgQGDSb_Y": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Life after retreat",
+          "group": null
+        },
+        {
+          "t": 856,
+          "title": "Seeing through an awakened perspective",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1053,
+          "title": "Mind, expression and body",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1534,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 2966,
+          "title": "A teaching story",
+          "group": null
+        },
+        {
+          "t": 3504,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "eGrC-mqVbiA": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 8,
+          "title": "Movement practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 552,
+          "title": "Sitting practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 1111,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 1414,
+          "title": "Wisdom and grounding",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1778,
+          "title": "Bringing practice into daily life",
+          "group": null
+        },
+        {
+          "t": 2738,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "Vg-oTknlpYQ": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Shamatha with an object",
+          "group": "Awareness"
+        },
+        {
+          "t": 705,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 823,
+          "title": "From object to open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 1687,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "YgmvSbcMZ7k": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Questions from daily life",
+          "group": null
+        },
+        {
+          "t": 550,
+          "title": "Wisdom and compassion",
+          "group": null
+        },
+        {
+          "t": 1445,
+          "title": "Skillful means and letting go",
+          "group": null
+        },
+        {
+          "t": 2378,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "AnAWMIBEwKY": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 17,
+          "title": "Preparing for practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 251,
+          "title": "Compassion practice",
+          "group": "Compassion"
+        },
+        {
+          "t": 395,
+          "title": "Recognizing natural compassion",
+          "group": "Compassion"
+        },
+        {
+          "t": 637,
+          "title": "Connecting with care",
+          "group": "Compassion"
+        },
+        {
+          "t": 901,
+          "title": "Expanding the circle",
+          "group": "Compassion"
+        },
+        {
+          "t": 1230,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1303,
+          "title": "Daily practice",
+          "group": null
+        }
+      ]
+    },
+    "plvB7oFSk-4": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 14,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 777,
+          "title": "Relaxing with the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 946,
+          "title": "Letting go of passions",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1928,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1995,
+          "title": "Daily practice",
+          "group": null
+        },
+        {
+          "t": 2426,
+          "title": "Working with shame",
+          "group": "Wisdom"
+        }
+      ]
+    },
+    "yYzNtadkSgo": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening",
+          "group": null
+        },
+        {
+          "t": 241,
+          "title": "Embrace eternity, keep oneness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1279,
+          "title": "Questions and habitual patterns",
+          "group": null
+        },
+        {
+          "t": 1524,
+          "title": "Examining patterns",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1990,
+          "title": "Practice discussion",
+          "group": null
+        },
+        {
+          "t": 2314,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "JchHCQeNVPM": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 9,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 172,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 270,
+          "title": "Compassion and loving-kindness",
+          "group": "Compassion"
+        },
+        {
+          "t": 460,
+          "title": "Expanding the circle",
+          "group": "Compassion"
+        },
+        {
+          "t": 798,
+          "title": "Including difficult people",
+          "group": "Compassion"
+        },
+        {
+          "t": 1124,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1138,
+          "title": "Practice discussion",
+          "group": null
+        }
+      ]
+    },
+    "JvlNDjWQlTU": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript indicates that the recording was paused during practice. Chapter times follow the recording, not the elapsed practice duration.",
+      "chapters": [
+        {
+          "t": 7,
+          "title": "Fire and water practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 96,
+          "title": "Returning to open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 200,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "0TM25lU40Bg": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 1655,
+          "title": "Introducing wisdom",
+          "group": null
+        },
+        {
+          "t": 1763,
+          "title": "Appreciation and loving-kindness",
+          "group": "Compassion"
+        },
+        {
+          "t": 2016,
+          "title": "Inquiry into the breath",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2350,
+          "title": "Not knowing the breath",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2682,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 2742,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "PdpnLHxEwdo": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript indicates that the recording was paused during practice. Chapter times follow the recording, not the elapsed practice duration.",
+      "chapters": [
+        {
+          "t": 3,
+          "title": "Fire and water practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 167,
+          "title": "Meditation and neurology",
+          "group": null
+        },
+        {
+          "t": 350,
+          "title": "Examining perception",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1110,
+          "title": "Questions and integration",
+          "group": null
+        },
+        {
+          "t": 2820,
+          "title": "A map for practice",
+          "group": null
+        }
+      ]
+    },
+    "sMopl8OkBdQ": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "YouTube captions closely match Bali Timezone 013 despite different recording dates. Both original listings are retained; the audio has not been compared.",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 60,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 123,
+          "title": "Shamatha with the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 1096,
+          "title": "Inquiry into the self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1359,
+          "title": "Reflecting on interdependence",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1452,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 3179,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "gXJSePcIgRg": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "The transcript indicates that the recording was paused during practice. Chapter times follow the recording, not the elapsed practice duration.",
+      "chapters": [
+        {
+          "t": 2,
+          "title": "Introducing fire and water",
+          "group": null
+        },
+        {
+          "t": 279,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 410,
+          "title": "Fire and water practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 1130,
+          "title": "Embrace eternity",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2333,
+          "title": "Practice discussion",
+          "group": null
+        }
+      ]
+    },
+    "1tTY-Mtpwyo": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "sourceNote": "YouTube captions closely match Bali Timezone 012 despite different recording dates. Both original listings are retained; the audio has not been compared.",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 60,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 124,
+          "title": "Shamatha with the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 871,
+          "title": "Inquiry into the self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1359,
+          "title": "Reflecting on interdependence",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1452,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "8dxCiCBrGUE": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 90,
+          "title": "Working with thoughts",
+          "group": null
+        },
+        {
+          "t": 457,
+          "title": "Introducing the practice",
+          "group": null
+        },
+        {
+          "t": 527,
+          "title": "Meditation",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2465,
+          "title": "Daily practice and questions",
+          "group": null
+        },
+        {
+          "t": 2963,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "MKQHaLONugY": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Questions from daily life",
+          "group": null
+        },
+        {
+          "t": 2332,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 2448,
+          "title": "Appreciation",
+          "group": "Compassion"
+        },
+        {
+          "t": 2577,
+          "title": "Inquiry into the self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2709,
+          "title": "Resting in open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 2802,
+          "title": "Looking directly at thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3570,
+          "title": "Working with shame",
+          "group": null
+        }
+      ]
+    },
+    "boInR6ZK3D4": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice recap",
+          "group": null
+        },
+        {
+          "t": 307,
+          "title": "Introducing oneness",
+          "group": null
+        },
+        {
+          "t": 644,
+          "title": "Meditation",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1557,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1604,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "hVYZToJ7980": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 2,
+          "title": "Practice discussion",
+          "group": null
+        },
+        {
+          "t": 554,
+          "title": "Contemplating experience",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1079,
+          "title": "Resting practice",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1765,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1804,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "DO0PlTmL7rI": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 331,
+          "title": "Working with sensations",
+          "group": "Wisdom"
+        },
+        {
+          "t": 713,
+          "title": "Awareness in daily activity",
+          "group": "Awareness"
+        },
+        {
+          "t": 819,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 1640,
+          "title": "Exploring perception",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2896,
+          "title": "Fire, water and open awareness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3779,
+          "title": "Questions on luminosity",
+          "group": null
+        }
+      ]
+    },
+    "no7nTB1hjGI": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 5,
+          "title": "Opening discussion",
+          "group": null
+        },
+        {
+          "t": 500,
+          "title": "Being with emotions",
+          "group": "Wisdom"
+        },
+        {
+          "t": 822,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 1013,
+          "title": "Recognizing luminosity",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1857,
+          "title": "Returning to the emotion",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2660,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "ALjUVV2faHM": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Questions on clarity",
+          "group": null
+        },
+        {
+          "t": 120,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 188,
+          "title": "Questions on luminosity",
+          "group": null
+        },
+        {
+          "t": 1019,
+          "title": "Fire and water practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 1270,
+          "title": "Recognizing lucidity",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2233,
+          "title": "Daily practice",
+          "group": null
+        },
+        {
+          "t": 2334,
+          "title": "Introducing dream practice",
+          "group": null
+        },
+        {
+          "t": 3226,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "0fvmmKuTlJE": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 3,
+          "title": "Opening questions",
+          "group": null
+        },
+        {
+          "t": 117,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 272,
+          "title": "Compassion and loving-kindness",
+          "group": "Compassion"
+        },
+        {
+          "t": 389,
+          "title": "Compassion and courage",
+          "group": "Compassion"
+        },
+        {
+          "t": 630,
+          "title": "Tonglen through the realms",
+          "group": "Compassion"
+        },
+        {
+          "t": 1578,
+          "title": "Resting in clarity",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1714,
+          "title": "Looking directly at thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1819,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1969,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "zuv42Hp6VM8": {
+      "status": "transcript-draft",
+      "sourceLanguage": "pl",
+      "sourceNote": "English chapter labels translated from the Polish captions. Timings have not been checked against the audio.",
+      "chapters": [
+        {
+          "t": 3,
+          "title": "Welcome",
+          "group": null
+        },
+        {
+          "t": 145,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 261,
+          "title": "Gratitude",
+          "group": null
+        },
+        {
+          "t": 345,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 435,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 531,
+          "title": "Fire and water practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 811,
+          "title": "Embrace eternity, keep oneness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 996,
+          "title": "Inquiry into thoughts",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1290,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "-I1hawBhSk4": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 108,
+          "title": "Tonglen through the realms",
+          "group": "Compassion"
+        },
+        {
+          "t": 885,
+          "title": "Resting in clarity",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1216,
+          "title": "Clarity through the breath",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1568,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1647,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "8tMIIJ_S7mk": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Practice recap",
+          "group": null
+        },
+        {
+          "t": 152,
+          "title": "Working with drowsiness",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1267,
+          "title": "Bringing practice into daily life",
+          "group": null
+        }
+      ]
+    },
+    "TfMAQ004xkk": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Introducing the practice",
+          "group": null
+        },
+        {
+          "t": 310,
+          "title": "Compassionate motivation",
+          "group": "Compassion"
+        },
+        {
+          "t": 894,
+          "title": "Inquiry through the senses",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1610,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1670,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "TXirWjaj1Q0": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice recap",
+          "group": null
+        },
+        {
+          "t": 375,
+          "title": "Working with emotions",
+          "group": "Wisdom"
+        },
+        {
+          "t": 859,
+          "title": "Settling into posture",
+          "group": "Awareness"
+        },
+        {
+          "t": 1109,
+          "title": "Inquiry through the senses",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1468,
+          "title": "Smell",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1619,
+          "title": "Touch",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1700,
+          "title": "Taste",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1769,
+          "title": "All the senses",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1987,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 2502,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "bBVlqzvHwTQ": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 32,
+          "title": "Settling into posture",
+          "group": null
+        },
+        {
+          "t": 495,
+          "title": "Awareness of the breath",
+          "group": "Awareness"
+        },
+        {
+          "t": 958,
+          "title": "Compassion practice",
+          "group": "Compassion"
+        },
+        {
+          "t": 1279,
+          "title": "Inquiry into experience",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1700,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1735,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "sOETmHMsdo0": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Dream practice questions",
+          "group": null
+        },
+        {
+          "t": 446,
+          "title": "Recalling a dream",
+          "group": "Wisdom"
+        },
+        {
+          "t": 813,
+          "title": "Waking experience as a dream",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1279,
+          "title": "Stabilizing non-distraction",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1414,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 1709,
+          "title": "Bringing practice into waking life",
+          "group": null
+        },
+        {
+          "t": 2691,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "cCVN-EgtsMw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 30,
+          "title": "Settling into posture",
+          "group": null
+        },
+        {
+          "t": 205,
+          "title": "Awareness with a support",
+          "group": "Awareness"
+        },
+        {
+          "t": 568,
+          "title": "Compassion and love",
+          "group": "Compassion"
+        },
+        {
+          "t": 733,
+          "title": "Sense of self",
+          "group": "Wisdom"
+        },
+        {
+          "t": 990,
+          "title": "A moment of sensation",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1383,
+          "title": "Breath, seeing and hearing",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1562,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 1568,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    },
+    "YAQwS7cpFsw": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Open awareness",
+          "group": "Awareness"
+        },
+        {
+          "t": 308,
+          "title": "Awareness in movement",
+          "group": "Awareness"
+        },
+        {
+          "t": 445,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 641,
+          "title": "The awareness switch",
+          "group": "Awareness"
+        },
+        {
+          "t": 1288,
+          "title": "Emotion practice",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1861,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 2520,
+          "title": "North: comparison",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2829,
+          "title": "West: grief and longing",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3536,
+          "title": "South: wanting more",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3876,
+          "title": "Centre: stimulation",
+          "group": "Wisdom"
+        },
+        {
+          "t": 4144,
+          "title": "Daily practice and questions",
+          "group": null
+        }
+      ]
+    },
+    "yPvh4kbGuo8": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Opening questions",
+          "group": null
+        },
+        {
+          "t": 207,
+          "title": "Preparing for practice",
+          "group": "Awareness"
+        },
+        {
+          "t": 562,
+          "title": "Fear and anger",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1390,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 2085,
+          "title": "North: comparison",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2825,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 3518,
+          "title": "West: grief and longing",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3912,
+          "title": "South: wanting more",
+          "group": "Wisdom"
+        },
+        {
+          "t": 4329,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 4633,
+          "title": "Centre: stimulation",
+          "group": "Wisdom"
+        },
+        {
+          "t": 5230,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "r8UmVq9O0Fk": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Questions on emotion practice",
+          "group": null
+        },
+        {
+          "t": 968,
+          "title": "Compassion and self-care",
+          "group": null
+        },
+        {
+          "t": 3106,
+          "title": "Working with stories",
+          "group": null
+        },
+        {
+          "t": 4261,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "f97hPBkblEc": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Practice questions",
+          "group": null
+        },
+        {
+          "t": 958,
+          "title": "Refuge prayer",
+          "group": null
+        },
+        {
+          "t": 1770,
+          "title": "The five directions",
+          "group": null
+        },
+        {
+          "t": 2058,
+          "title": "East",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2370,
+          "title": "North",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2654,
+          "title": "West",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2858,
+          "title": "South",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3051,
+          "title": "The whole mandala",
+          "group": "Wisdom"
+        },
+        {
+          "t": 3656,
+          "title": "Dedication",
+          "group": null
+        },
+        {
+          "t": 3838,
+          "title": "Questions and daily practice",
+          "group": null
+        }
+      ]
+    },
+    "dhlR_SBs0jA": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "Compassion and connection",
+          "group": null
+        },
+        {
+          "t": 472,
+          "title": "Introducing emotion work",
+          "group": null
+        },
+        {
+          "t": 601,
+          "title": "Awareness and emotion",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1458,
+          "title": "Examining discomfort and desire",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1980,
+          "title": "Three approaches to emotions",
+          "group": null
+        },
+        {
+          "t": 2221,
+          "title": "Awareness with discomfort",
+          "group": "Awareness"
+        },
+        {
+          "t": 2601,
+          "title": "The completion approach",
+          "group": null
+        },
+        {
+          "t": 3364,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 3617,
+          "title": "Dedication",
+          "group": null
+        }
+      ]
+    },
+    "fTJDfagbwwQ": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 0,
+          "title": "The four noble truths",
+          "group": null
+        },
+        {
+          "t": 296,
+          "title": "Examining satisfaction",
+          "group": "Wisdom"
+        },
+        {
+          "t": 799,
+          "title": "Desire and experience",
+          "group": "Wisdom"
+        },
+        {
+          "t": 1401,
+          "title": "Cessation of suffering",
+          "group": null
+        },
+        {
+          "t": 1838,
+          "title": "Shamatha and insight",
+          "group": "Wisdom"
+        },
+        {
+          "t": 2297,
+          "title": "Awareness with discomfort",
+          "group": "Awareness"
+        }
+      ]
+    },
+    "gdBb7FSGx24": {
+      "status": "transcript-draft",
+      "sourceLanguage": "en",
+      "chapters": [
+        {
+          "t": 1,
+          "title": "Introducing willpower",
+          "group": null
+        },
+        {
+          "t": 273,
+          "title": "Listening for inner direction",
+          "group": "Awareness"
+        },
+        {
+          "t": 505,
+          "title": "Questions",
+          "group": null
+        },
+        {
+          "t": 1061,
+          "title": "Breath, body and stillness",
+          "group": "Awareness"
+        },
+        {
+          "t": 1973,
+          "title": "Questions and daily life",
+          "group": null
+        },
+        {
+          "t": 2104,
+          "title": "Mind fasting",
+          "group": null
+        },
+        {
+          "t": 2229,
+          "title": "Sensory fasting",
+          "group": null
+        },
+        {
+          "t": 2914,
+          "title": "Soul fasting",
+          "group": null
+        },
+        {
+          "t": 3075,
+          "title": "Questions",
+          "group": null
+        }
+      ]
+    }
+  }
+}
