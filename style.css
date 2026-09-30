@@ -563,3 +563,8 @@ html.outline-open, .outline-open body { overflow: hidden; }
 .chapter-source { font-size:12px; color:var(--soft); margin:.5rem 0 1rem; }
 .chapter-source summary { cursor:pointer; min-height:32px; padding:.4rem 0; }
 .chapter-source p { line-height:1.55; max-width:55ch; padding:.4rem 0; }
+
+/* Topic captions wrap in full so a remembered detail remains discoverable. */
+.recording-topics { font-size:15px; line-height:1.55; color:var(--body); overflow-wrap:anywhere; }
+.recording-page .recording-topics { margin:-.65rem 0 1.5rem; }
+.recording-row .recording-topics { margin:.45rem 0; font-size:14px; }

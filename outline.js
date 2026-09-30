@@ -18,6 +18,20 @@ export function groupOutline(sessions, cards, current) {
   return [...months].map(([month, recordings]) => ({ month, recordings }));
 }
 
+// Reuse source-backed chapter labels; do not invent a second summary of the teaching.
+export function recordingTopics(chapters = []) {
+  const seen = new Set();
+  return chapters.map(c => c.title.trim()).filter(title => {
+    const key = title.toLocaleLowerCase();
+    if (!title || seen.has(key)) return false;
+    seen.add(key); return true;
+  }).join(' · ');
+}
+
+export function recordingSwipe(dx, dy) {
+  return Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 2 ? (dx < 0 ? -1 : 1) : 0;
+}
+
 export function createOutline({ getData, getCurrent, onOpen, onClose, onSelect, textOf, provenanceOf, esc, fmtTime }) {
   let dialog = null;
   const dateLabel = date => /^\d{4}-\d{2}-\d{2}$/.test(date || '')
@@ -85,6 +99,7 @@ export function createOutline({ getData, getCurrent, onOpen, onClose, onSelect, 
       const panel = body.querySelector('.recording-page');
       panel.innerHTML = `<button class="recording-date" data-date aria-label="Choose recording by date">${esc(dateLabel(session.date))} <span aria-hidden="true">⌄</span></button>
         <h1>${esc(session.session)}</h1>
+        ${session.topics ? `<p class="recording-topics">${esc(session.topics)}</p>` : ''}
         <div class="recording-player"><button class="recording-play" data-play aria-label="Play ${esc(session.session)}"><img src="https://i.ytimg.com/vi/${esc(session.video)}/hqdefault.jpg" alt="" loading="lazy"><span>▶ <span>Play recording</span></span></button></div>
         <a class="recording-youtube" href="https://youtu.be/${esc(session.video)}" target="_blank" rel="noopener">Open in YouTube ↗</a>
         ${session.chapters.length ? `<section class="recording-chapters" aria-label="Chapters"><h2>In this recording</h2><p class="chapter-note">Chapters from captions · timings unverified</p>${session.chapters.map((c,j) => `<button data-chapter="${j}"><time>${fmtTime(c.t)}</time><span>${esc(c.title)}</span><span aria-hidden="true">↗</span></button>`).join('')}</section>` : '<p class="chapter-note">Chapters awaiting review.</p>'}
@@ -130,17 +145,18 @@ export function createOutline({ getData, getCurrent, onOpen, onClose, onSelect, 
     box.addEventListener('touchend', e => {
       if (!swipe) return;
       const t=e.changedTouches[0], dx=t.clientX-swipe.x, dy=t.clientY-swipe.y; swipe=null;
-      if (Math.abs(dx)>70 && Math.abs(dx)>Math.abs(dy)*2 && !window.getSelection()?.toString()) navigate(dx<0 ? 1 : -1);
+      const delta = recordingSwipe(dx, dy);
+      if (delta && !window.getSelection()?.toString()) navigate(delta);
     }, {passive:true});
     try {
       const {sessions,cards,chapters={}}=await getData();
       if (dialog!==box) return;
-      recordings=groupOutline(sessions,cards,getCurrent()).flatMap(g=>g.recordings).map(s => ({...s, chapters: chapters[s.video]?.chapters || [], sourceNote: chapters[s.video]?.sourceNote || null}));
+      recordings=groupOutline(sessions,cards,getCurrent()).flatMap(g=>g.recordings).map(s => ({...s, chapters: chapters[s.video]?.chapters || [], topics: recordingTopics(chapters[s.video]?.chapters), sourceNote: chapters[s.video]?.sourceNote || null}));
       active=recordings.find(s=>s.video===getCurrent()?.video) || null;
       body.innerHTML='<section class="recording-picker"><button class="recording-picker-back" data-picker-back>← Back to recording</button><div class="practice-filters" role="group" aria-label="Filter recordings by practice"></div><p class="practice-coverage" role="status"></p><div class="recording-list"></div></section><section class="recording-page" hidden></section>';
       body.querySelector('.practice-filters').innerHTML = ['All','Awareness','Compassion','Wisdom'].map(f => `<button data-filter="${f}" aria-pressed="${f === practiceFilter}">${f}</button>`).join('');
       body.querySelectorAll('[data-filter]').forEach(b => b.onclick = () => { practiceFilter = b.dataset.filter; applyFilter(); });
-      body.querySelector('.recording-list').innerHTML=recordings.map((s,i)=>`<button class="recording-row" data-recording="${esc(s.video)}"><span class="recording-row-date">${esc(dateLabel(s.date))}${i===0 ? ' · latest' : ''}</span><span>${esc(s.session)}</span><small>${esc(s.minutes || '')}${s.minutes ? ' min' : ''}${s.video===getCurrent()?.video ? ' · your passage' : ''}</small></button>`).join('');
+      body.querySelector('.recording-list').innerHTML=recordings.map((s,i)=>`<button class="recording-row" data-recording="${esc(s.video)}"><span class="recording-row-date">${esc(dateLabel(s.date))}${i===0 ? ' · latest' : ''}</span><span>${esc(s.session)}</span>${s.topics ? `<span class="recording-topics">${esc(s.topics)}</span>` : ''}<small>${esc(s.minutes || '')}${s.minutes ? ' min' : ''}${s.video===getCurrent()?.video ? ' · your passage' : ''}</small></button>`).join('');
       body.querySelectorAll('[data-recording]').forEach(b=>b.onclick=()=> {
         const selected=recordings.find(s=>s.video===b.dataset.recording);
         if (selected === active && body.querySelector('.recording-player')) setPicker(false);
